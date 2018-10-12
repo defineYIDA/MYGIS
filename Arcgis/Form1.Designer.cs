@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -46,6 +47,8 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.打开地图文档ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.map = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.属性表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -64,6 +67,7 @@
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axPageLayoutControl1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // axToolbarControl1
@@ -119,6 +123,7 @@
             this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
             this.axTOCControl1.Size = new System.Drawing.Size(232, 252);
             this.axTOCControl1.TabIndex = 1;
+            this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this.axTOCControl1_OnMouseDown);
             // 
             // axLicenseControl1
             // 
@@ -180,7 +185,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(452, 444);
+            this.tabPage2.Size = new System.Drawing.Size(452, 416);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "布局视图";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -191,7 +196,7 @@
             this.axPageLayoutControl1.Location = new System.Drawing.Point(3, 3);
             this.axPageLayoutControl1.Name = "axPageLayoutControl1";
             this.axPageLayoutControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axPageLayoutControl1.OcxState")));
-            this.axPageLayoutControl1.Size = new System.Drawing.Size(446, 438);
+            this.axPageLayoutControl1.Size = new System.Drawing.Size(446, 410);
             this.axPageLayoutControl1.TabIndex = 0;
             // 
             // statusStrip1
@@ -225,14 +230,14 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
-            this.toolStripMenuItem1.Text = "新建地图文档";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Text = "另存为";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // 打开地图文档ToolStripMenuItem
             // 
             this.打开地图文档ToolStripMenuItem.Name = "打开地图文档ToolStripMenuItem";
-            this.打开地图文档ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.打开地图文档ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.打开地图文档ToolStripMenuItem.Text = "打开地图文档";
             this.打开地图文档ToolStripMenuItem.Click += new System.EventHandler(this.打开地图文档ToolStripMenuItem_Click);
             // 
@@ -241,6 +246,20 @@
             this.map.Name = "map";
             this.map.Size = new System.Drawing.Size(44, 21);
             this.map.Text = "数据";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.属性表ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 26);
+            // 
+            // 属性表ToolStripMenuItem
+            // 
+            this.属性表ToolStripMenuItem.Name = "属性表ToolStripMenuItem";
+            this.属性表ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.属性表ToolStripMenuItem.Text = "属性表";
+            this.属性表ToolStripMenuItem.Click += new System.EventHandler(this.属性表ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -274,6 +293,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.axPageLayoutControl1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -298,6 +318,8 @@
         private ESRI.ArcGIS.Controls.AxPageLayoutControl axPageLayoutControl1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 打开地图文档ToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 属性表ToolStripMenuItem;
     }
 }
 
