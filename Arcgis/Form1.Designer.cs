@@ -230,14 +230,14 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
-            this.toolStripMenuItem1.Text = "新建地图文档";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Text = "另存为";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // 打开地图文档ToolStripMenuItem
             // 
             this.打开地图文档ToolStripMenuItem.Name = "打开地图文档ToolStripMenuItem";
-            this.打开地图文档ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.打开地图文档ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.打开地图文档ToolStripMenuItem.Text = "打开地图文档";
             this.打开地图文档ToolStripMenuItem.Click += new System.EventHandler(this.打开地图文档ToolStripMenuItem_Click);
             // 

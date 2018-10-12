@@ -27,6 +27,8 @@ namespace Arcgis.View
             mLayer = layer;
         }
 
+
+        
         private void AttributeTable_Load(object sender, EventArgs e)
         {
             IFeatureLayer pFeatureLayer = mLayer as IFeatureLayer;

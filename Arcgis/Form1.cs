@@ -80,7 +80,7 @@ namespace Arcgis
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             File file = new File();
-            file.newMapDoc(axMapControl1);
+            file.saveAsDocument(axMapControl1);
         }
 
         private void 打开地图文档ToolStripMenuItem_Click(object sender, EventArgs e)
