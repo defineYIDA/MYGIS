@@ -45,6 +45,29 @@ namespace Arcgis
             objectCopy.Overwrite(copyMap, ref copyToMap);//引用传递焦点视图
         }
 
+        #region 打开和保存地图文档
+        /// <summary>
+        /// 保存和另存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            File file = new File();
+            file.saveAsDocument(axMapControl1);
+        }
+        /// <summary>
+        /// 打开地图文档
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openMapDoc_Click(object sender, EventArgs e)
+        {
+            File file = new File();
+            file.loadMapDoc(axMapControl1);
+        } 
+        #endregion
+
         /// <summary>
         /// 地图发生改变事件
         /// </summary>
@@ -61,12 +84,17 @@ namespace Arcgis
                 {
                     axMapControl2.Map.AddLayer(axMapControl1.Map.get_Layer(i));
                 }
+                //axMapControl2.Map = axMapControl1.Map;
                 axMapControl2.Extent = axMapControl1.FullExtent;//设置鹰眼视图为全局视图
                 axMapControl2.Refresh();
             }
 
         }
-
+        /// <summary>
+        /// map绘制完成后发生
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void axMapControl1_OnAfterScreenDraw(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnAfterScreenDrawEvent e)
         {
             IActiveView activeView = (IActiveView)axPageLayoutControl1.ActiveView.FocusMap;//获得pagelayout的当前视图
@@ -77,42 +105,101 @@ namespace Arcgis
             copyToPageLayout();
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 主窗体视图范围变化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void axMapControl1_OnExtentUpdated(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnExtentUpdatedEvent e)
         {
-            File file = new File();
-            file.saveAsDocument(axMapControl1);
-        }
+            //获得当前地图视图的外包矩形
+            IEnvelope pEnvelope = (IEnvelope)e.newEnvelope;
 
-        private void 打开地图文档ToolStripMenuItem_Click(object sender, EventArgs e)
+            //获得GraphicsContainer对象用来管理元素对象
+            IGraphicsContainer pGraphicsContainer = axMapControl2.Map as IGraphicsContainer;
+
+            //清除对象中的所有图形元素
+            pGraphicsContainer.DeleteAllElements();
+            
+            //获得矩形图形元素
+            IRectangleElement pRectangleEle = new RectangleElementClass();
+            IElement pElement = pRectangleEle as IElement;
+            pElement.Geometry = pEnvelope;
+ 
+           
+            //设置FillShapeElement对象的symbol
+            IFillShapeElement pFillShapeEle = pElement as IFillShapeElement;
+            pFillShapeEle.Symbol = getFillSymbol();
+
+            //进行填充
+            pGraphicsContainer.AddElement((IElement)pFillShapeEle, 0);
+
+            //刷新视图
+            IActiveView pActiveView = pGraphicsContainer as IActiveView;
+            pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+        }
+        /// <summary>
+        /// 获得鹰眼视图显示方框的symbol
+        /// </summary>
+        /// <returns></returns>
+        private IFillSymbol getFillSymbol()
         {
-            File file = new File();
-            file.loadMapDoc(axMapControl1);
+            //矩形框的边界线颜色
+            IRgbColor pColor = new RgbColorClass();
+            pColor.Red = 255;
+            pColor.Green = 0;
+            pColor.Blue = 0;
+            pColor.Transparency = 255;
+            //边界线
+            ILineSymbol pOutline = new SimpleLineSymbolClass();
+            pOutline.Width = 3;
+            pOutline.Color = pColor;
+            //symbol的背景色
+            pColor = new RgbColorClass();
+            pColor.Red = 255;
+            pColor.Green = 0;
+            pColor.Blue = 0;
+            pColor.Transparency = 0;
+            //获得显示的图形元素
+            IFillSymbol pFillSymbol = new SimpleFillSymbolClass();
+            pFillSymbol.Color = pColor;
+            pFillSymbol.Outline = pOutline;
+            return pFillSymbol;
         }
-
+        #region 鹰眼视图上鼠标的事件
+        /// <summary>
+        /// 鹰眼视图上鼠标点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void axMapControl2_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
         {
             if (axMapControl2.Map.LayerCount > 0)
             {
-                if (e.button == 1)
+                if (e.button == 1)//左键将所点击的位置，设置为主视图的中心
                 {
                     IPoint pPoint = new PointClass();
-                    pPoint.PutCoords(e.mapX, e.mapY);
+                    pPoint.PutCoords(e.mapX, e.mapY);//设置point对象的坐标
                     axMapControl1.CenterAt(pPoint);
                     axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
                 }
-                else if (e.button == 2)
+                else if (e.button == 2)//右键拉框范围设置为主视图显示范围
                 {
-                    IEnvelope pEnv = axMapControl2.TrackRectangle();
+                    IEnvelope pEnv = axMapControl2.TrackRectangle();//获得拉框的范围
                     axMapControl1.Extent = pEnv;
                     axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
                 }
             }
 
         }
-
+        /// <summary>
+        /// 鹰眼视图上鼠标移动事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void axMapControl2_OnMouseMove(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseMoveEvent e)
         {
-            if (e.button == 1)
+            if (e.button == 1)//左键点击移动，俩个视图联动
             {
                 IPoint pPoint = new PointClass();
                 pPoint.PutCoords(e.mapX, e.mapY);
@@ -121,40 +208,8 @@ namespace Arcgis
             }
 
         }
+        #endregion
 
-        private void axMapControl1_OnExtentUpdated(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnExtentUpdatedEvent e)
-        {
-            IEnvelope pEnvelope = (IEnvelope)e.newEnvelope;
-            IGraphicsContainer pGraphicsContainer = axMapControl2.Map as IGraphicsContainer;
-            IActiveView pActiveView = pGraphicsContainer as IActiveView;
-            pGraphicsContainer.DeleteAllElements();
-            IRectangleElement pRectangleEle = new RectangleElementClass();
-            IElement pElement = pRectangleEle as IElement;
-            pElement.Geometry = pEnvelope;
-
-            IRgbColor pColor = new RgbColorClass();
-            pColor.Red = 255;
-            pColor.Green = 0;
-            pColor.Blue = 0;
-            pColor.Transparency = 255;
-
-            ILineSymbol pOutline = new SimpleLineSymbolClass();
-            pOutline.Width = 3;
-            pOutline.Color = pColor;
-            pColor = new RgbColorClass();
-            pColor.Red = 255;
-            pColor.Green = 0;
-            pColor.Blue = 0;
-            pColor.Transparency = 0;
-
-            IFillSymbol pFillSymbol = new SimpleFillSymbolClass();
-            pFillSymbol.Color = pColor;
-            pFillSymbol.Outline = pOutline;
-            IFillShapeElement pFillShapeEle = pElement as IFillShapeElement;
-            pFillShapeEle.Symbol = pFillSymbol;
-            pGraphicsContainer.AddElement((IElement)pFillShapeEle, 0);
-            pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
-        }
         /// <summary>
         /// mapcontrol刷新
         /// </summary>
@@ -191,7 +246,12 @@ namespace Arcgis
             }
         }
 
-        private void 属性表ToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 打开属性表
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void attributeTable_Click(object sender, EventArgs e)
         {
             AttributeTable attributeTable = new AttributeTable(layer);
             attributeTable.Text = "属性表：" + layer.Name;
