@@ -22,6 +22,11 @@ namespace Arcgis
         /// <param name="axMapControl"></param>
         public void saveAsDocument(AxMapControl axMapControl)
         {
+            if (axMapControl.DocumentFilename == null)//空地图为null
+            {
+                MessageBox.Show("没有地图文档！");
+                return;
+            }
             mapDocument.Open(axMapControl.DocumentFilename, "");//必须的一步，用于将AxMapControl的实例的DocumentFileName传递给pMapDoc的
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Title = "保存地图文档";
@@ -49,7 +54,7 @@ namespace Arcgis
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Title = "打开地图文档";
             openFileDialog1.Filter = "地图文档(*.mxd)|*.mxd";//设置过滤属性
-            openFileDialog1.ShowDialog();
+            if (openFileDialog1.ShowDialog() != DialogResult.OK) return;//未选择文件return
             string filePath = openFileDialog1.FileName;//获取到文件路径
             if (axMapControl.CheckMxFile(filePath))//检查路径是否合法
             {
