@@ -1,6 +1,6 @@
-﻿namespace Arcgis
+﻿namespace Arcgis.View
 {
-    partial class Form1
+    partial class MainPage
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainPage));
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -42,6 +42,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.axPageLayoutControl1 = new ESRI.ArcGIS.Controls.AxPageLayoutControl();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.doc = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +50,6 @@
             this.map = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.attributeTable = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -138,11 +138,11 @@
             // 
             // axMapControl2
             // 
-            this.axMapControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.axMapControl2.Location = new System.Drawing.Point(0, -4);
+            this.axMapControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axMapControl2.Location = new System.Drawing.Point(0, 0);
             this.axMapControl2.Name = "axMapControl2";
             this.axMapControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl2.OcxState")));
-            this.axMapControl2.Size = new System.Drawing.Size(232, 186);
+            this.axMapControl2.Size = new System.Drawing.Size(232, 182);
             this.axMapControl2.TabIndex = 0;
             this.axMapControl2.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl2_OnMouseDown);
             this.axMapControl2.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl2_OnMouseMove);
@@ -211,6 +211,12 @@
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(77, 17);
+            this.toolStripStatusLabel1.Text = "define_YIDA";
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -225,8 +231,8 @@
             // doc
             // 
             this.doc.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.openMapDoc});
+            this.openMapDoc,
+            this.toolStripMenuItem1});
             this.doc.Name = "doc";
             this.doc.Size = new System.Drawing.Size(44, 21);
             this.doc.Text = "文件";
@@ -234,15 +240,15 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem1.Text = "另存为";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // openMapDoc
             // 
             this.openMapDoc.Name = "openMapDoc";
-            this.openMapDoc.Size = new System.Drawing.Size(148, 22);
-            this.openMapDoc.Text = "打开地图文档";
+            this.openMapDoc.Size = new System.Drawing.Size(152, 22);
+            this.openMapDoc.Text = "打开";
             this.openMapDoc.Click += new System.EventHandler(this.openMapDoc_Click);
             // 
             // map
@@ -265,13 +271,7 @@
             this.attributeTable.Text = "属性表";
             this.attributeTable.Click += new System.EventHandler(this.attributeTable_Click);
             // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(77, 17);
-            this.toolStripStatusLabel1.Text = "define_YIDA";
-            // 
-            // Form1
+            // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -281,8 +281,8 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.Text = "GISAPP";
+            this.Name = "MainPage";
+            this.Text = "APP";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);

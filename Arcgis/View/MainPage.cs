@@ -13,15 +13,16 @@ using ESRI.ArcGIS.Carto;
 using System.Runtime.InteropServices;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Controls;
-using Arcgis.View;
 
-namespace Arcgis
+
+
+namespace Arcgis.View
 {
-    public partial class Form1 : Form
+    public partial class MainPage : Form
     {
         private ILayer layer;
 
-        public Form1()
+        public MainPage()
         {
             InitializeComponent();
         }
