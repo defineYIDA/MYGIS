@@ -13,6 +13,7 @@ using ESRI.ArcGIS.Carto;
 using System.Runtime.InteropServices;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Controls;
+using Arcgis.Controller;
 
 
 
@@ -24,12 +25,25 @@ namespace Arcgis.View
 
         public MainPage()
         {
+            MainPageController mainPageController = new MainPageController(this);
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 该view对应的controller
+        /// </summary>
+        private MainPageController _Controller;
+        
+        public MainPageController Controller
+        {
+            get { return _Controller; }
+            set { _Controller = value; }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             axTOCControl1.SetBuddyControl(axMapControl1);
+
         }
 
         /// <summary>
@@ -258,6 +272,33 @@ namespace Arcgis.View
             attributeTable.Text = "属性表：" + layer.Name;
             attributeTable.ShowDialog();
         }
+
+        private void axTOCControl1_OnBeginLabelEdit(object sender, ITOCControlEvents_OnBeginLabelEditEvent e)
+        {
+            ITOCControl m_TOCControl;
+            IBasicMap map = null;
+            object other = null;
+            object index = null;
+            esriTOCControlItem item = esriTOCControlItem.esriTOCControlItemNone;
+            m_TOCControl = axTOCControl1.Object as ITOCControl;
+            m_TOCControl.HitTest(e.x,e.y,ref item,ref map,ref layer,ref other,ref index);
+            if (item != esriTOCControlItem.esriTOCControlItemLayer)
+            {
+                e.canEdit = false;
+            }
+        }
+        //当图层名设置为空时编辑失败
+        private void axTOCControl1_OnEndLabelEdit(object sender, ITOCControlEvents_OnEndLabelEditEvent e)
+        {
+            if (e.newLabel.Trim() == "")
+            {
+                e.canEdit = false;
+            }
+        }
+
+      
+
+       
 
     }
 }

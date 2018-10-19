@@ -45,11 +45,13 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.doc = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openMapDoc = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.map = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.attributeTable = new System.Windows.Forms.ToolStripMenuItem();
+            this.delLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.test = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -125,7 +127,9 @@
             this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
             this.axTOCControl1.Size = new System.Drawing.Size(232, 245);
             this.axTOCControl1.TabIndex = 1;
-            this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this.axTOCControl1_OnMouseDown);
+            this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this._Controller.axTOCControl1_OnMouseDown);
+            this.axTOCControl1.OnBeginLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnBeginLabelEditEventHandler(this.axTOCControl1_OnBeginLabelEdit);
+            this.axTOCControl1.OnEndLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnEndLabelEditEventHandler(this.axTOCControl1_OnEndLabelEdit);
             // 
             // axLicenseControl1
             // 
@@ -144,8 +148,8 @@
             this.axMapControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl2.OcxState")));
             this.axMapControl2.Size = new System.Drawing.Size(232, 182);
             this.axMapControl2.TabIndex = 0;
-            this.axMapControl2.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl2_OnMouseDown);
-            this.axMapControl2.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl2_OnMouseMove);
+            this.axMapControl2.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this._Controller.axMapControl2_OnMouseDown);
+            this.axMapControl2.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this._Controller.axMapControl2_OnMouseMove);
             // 
             // tabControl1
             // 
@@ -177,9 +181,9 @@
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
             this.axMapControl1.Size = new System.Drawing.Size(446, 399);
             this.axMapControl1.TabIndex = 0;
-            this.axMapControl1.OnAfterScreenDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterScreenDrawEventHandler(this.axMapControl1_OnAfterScreenDraw);
-            this.axMapControl1.OnExtentUpdated += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnExtentUpdatedEventHandler(this.axMapControl1_OnExtentUpdated);
-            this.axMapControl1.OnMapReplaced += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMapReplacedEventHandler(this.axMapControl1_OnMapReplaced);
+            this.axMapControl1.OnAfterScreenDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterScreenDrawEventHandler(this._Controller.axMapControl1_OnAfterScreenDraw);
+            this.axMapControl1.OnExtentUpdated += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnExtentUpdatedEventHandler(this._Controller.axMapControl1_OnExtentUpdated);
+            this.axMapControl1.OnMapReplaced += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMapReplacedEventHandler(this._Controller.axMapControl1_OnMapReplaced);
             // 
             // tabPage2
             // 
@@ -221,7 +225,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.doc,
-            this.map});
+            this.map,
+            this.test});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(696, 25);
@@ -237,19 +242,19 @@
             this.doc.Size = new System.Drawing.Size(44, 21);
             this.doc.Text = "文件";
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem1.Text = "另存为";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
             // openMapDoc
             // 
             this.openMapDoc.Name = "openMapDoc";
-            this.openMapDoc.Size = new System.Drawing.Size(152, 22);
+            this.openMapDoc.Size = new System.Drawing.Size(112, 22);
             this.openMapDoc.Text = "打开";
-            this.openMapDoc.Click += new System.EventHandler(this.openMapDoc_Click);
+            this.openMapDoc.Click += new System.EventHandler(this._Controller.openMapDoc_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
+            this.toolStripMenuItem1.Text = "另存为";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this._Controller.toolStripMenuItem1_Click);
             // 
             // map
             // 
@@ -260,16 +265,30 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.attributeTable});
+            this.attributeTable,
+            this.delLayer});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 48);
             // 
             // attributeTable
             // 
             this.attributeTable.Name = "attributeTable";
-            this.attributeTable.Size = new System.Drawing.Size(112, 22);
+            this.attributeTable.Size = new System.Drawing.Size(124, 22);
             this.attributeTable.Text = "属性表";
-            this.attributeTable.Click += new System.EventHandler(this.attributeTable_Click);
+            this.attributeTable.Click += new System.EventHandler(this._Controller.attributeTable_Click);
+            // 
+            // delLayer
+            // 
+            this.delLayer.Name = "delLayer";
+            this.delLayer.Size = new System.Drawing.Size(124, 22);
+            this.delLayer.Text = "删除图层";
+            // 
+            // test
+            // 
+            this.test.Name = "test";
+            this.test.Size = new System.Drawing.Size(41, 21);
+            this.test.Text = "test";
+            this.test.Click += new System.EventHandler(this._Controller.test_Click);
             // 
             // MainPage
             // 
@@ -313,26 +332,28 @@
 
         #endregion
 
-        private ESRI.ArcGIS.Controls.AxToolbarControl axToolbarControl1;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.SplitContainer splitContainer2;
-        private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
+        public ESRI.ArcGIS.Controls.AxToolbarControl axToolbarControl1;
+        public System.Windows.Forms.SplitContainer splitContainer1;
+        public System.Windows.Forms.SplitContainer splitContainer2;
+        public ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
         public ESRI.ArcGIS.Controls.AxMapControl axMapControl2;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem doc;
-        private System.Windows.Forms.ToolStripMenuItem map;
-        private ESRI.ArcGIS.Controls.AxTOCControl axTOCControl1;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private ESRI.ArcGIS.Controls.AxMapControl axMapControl1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private ESRI.ArcGIS.Controls.AxPageLayoutControl axPageLayoutControl1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem openMapDoc;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem attributeTable;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        public System.Windows.Forms.StatusStrip statusStrip1;
+        public System.Windows.Forms.MenuStrip menuStrip1;
+        public System.Windows.Forms.ToolStripMenuItem doc;
+        public System.Windows.Forms.ToolStripMenuItem map;
+        public ESRI.ArcGIS.Controls.AxTOCControl axTOCControl1;
+        public System.Windows.Forms.TabControl tabControl1;
+        public System.Windows.Forms.TabPage tabPage1;
+        public ESRI.ArcGIS.Controls.AxMapControl axMapControl1;
+        public System.Windows.Forms.TabPage tabPage2;
+        public ESRI.ArcGIS.Controls.AxPageLayoutControl axPageLayoutControl1;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        public System.Windows.Forms.ToolStripMenuItem openMapDoc;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        public System.Windows.Forms.ToolStripMenuItem attributeTable;
+        public System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        public System.Windows.Forms.ToolStripMenuItem delLayer;
+        public System.Windows.Forms.ToolStripMenuItem test;
     }
 }
 
