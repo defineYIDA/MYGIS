@@ -2,6 +2,7 @@
 {
     partial class MainPage
     {
+        
         /// <summary>
         /// 必需的设计器变量。
         /// </summary>
@@ -51,7 +52,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.attributeTable = new System.Windows.Forms.ToolStripMenuItem();
             this.delLayer = new System.Windows.Forms.ToolStripMenuItem();
-            this.test = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkCustomize = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -128,8 +129,8 @@
             this.axTOCControl1.Size = new System.Drawing.Size(232, 245);
             this.axTOCControl1.TabIndex = 1;
             this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this._Controller.axTOCControl1_OnMouseDown);
-            this.axTOCControl1.OnBeginLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnBeginLabelEditEventHandler(this.axTOCControl1_OnBeginLabelEdit);
-            this.axTOCControl1.OnEndLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnEndLabelEditEventHandler(this.axTOCControl1_OnEndLabelEdit);
+            this.axTOCControl1.OnBeginLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnBeginLabelEditEventHandler(this._Controller.axTOCControl1_OnBeginLabelEdit);
+            this.axTOCControl1.OnEndLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnEndLabelEditEventHandler(this._Controller.axTOCControl1_OnEndLabelEdit);
             // 
             // axLicenseControl1
             // 
@@ -226,7 +227,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.doc,
             this.map,
-            this.test});
+            this.chkCustomize});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(696, 25);
@@ -283,12 +284,12 @@
             this.delLayer.Size = new System.Drawing.Size(124, 22);
             this.delLayer.Text = "删除图层";
             // 
-            // test
+            // chkCustomize
             // 
-            this.test.Name = "test";
-            this.test.Size = new System.Drawing.Size(41, 21);
-            this.test.Text = "test";
-            this.test.Click += new System.EventHandler(this._Controller.test_Click);
+            this.chkCustomize.Name = "chkCustomize";
+            this.chkCustomize.Size = new System.Drawing.Size(41, 21);
+            this.chkCustomize.Text = "定制对话框";
+            this.chkCustomize.CheckStateChanged += new System.EventHandler(this._Controller.chkCustomize_CheckStateChanged);
             // 
             // MainPage
             // 
@@ -353,7 +354,7 @@
         public System.Windows.Forms.ToolStripMenuItem attributeTable;
         public System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         public System.Windows.Forms.ToolStripMenuItem delLayer;
-        public System.Windows.Forms.ToolStripMenuItem test;
+        public System.Windows.Forms.ToolStripMenuItem chkCustomize;
     }
 }
 

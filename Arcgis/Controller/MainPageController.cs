@@ -24,31 +24,15 @@ namespace Arcgis.Controller
         public MainPage mainPage;
         private ILayer layer;
 
+
         public MainPageController(MainPage mainPage)
         {
             this.mainPage = mainPage;
             this.mainPage.Controller = this;
             
         }
-        #region MainPage的事件
-        public void test_Click(object sender, EventArgs e)
-        {
 
-            MessageBox.Show("kkkkk");
-        }
-        /// <summary>
-        /// 地图控件和布局控件数据共享
-        /// </summary>
-        private void copyToPageLayout()
-        {
-            //IObjectCopy接口提供Copy方法用于地图的复制
-            IObjectCopy objectCopy = new ObjectCopyClass();
-            object copyFromMap = mainPage.axMapControl1.Map;//要copy的map
-            object copyMap = objectCopy.Copy(copyFromMap);
-            object copyToMap = mainPage.axPageLayoutControl1.ActiveView.FocusMap;
-            //Overwrite方法用于地图写入PageLayoutControl控件的视图中
-            objectCopy.Overwrite(copyMap, ref copyToMap);//引用传递焦点视图
-        }
+        #region MainPage的事件
 
         #region 打开和保存地图文档
         /// <summary>
@@ -143,34 +127,7 @@ namespace Arcgis.Controller
             IActiveView pActiveView = pGraphicsContainer as IActiveView;
             pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
         }
-        /// <summary>
-        /// 获得鹰眼视图显示方框的symbol
-        /// </summary>
-        /// <returns></returns>
-        private IFillSymbol getFillSymbol()
-        {
-            //矩形框的边界线颜色
-            IRgbColor pColor = new RgbColorClass();
-            pColor.Red = 255;
-            pColor.Green = 0;
-            pColor.Blue = 0;
-            pColor.Transparency = 255;
-            //边界线
-            ILineSymbol pOutline = new SimpleLineSymbolClass();
-            pOutline.Width = 3;
-            pOutline.Color = pColor;
-            //symbol的背景色
-            pColor = new RgbColorClass();
-            pColor.Red = 255;
-            pColor.Green = 0;
-            pColor.Blue = 0;
-            pColor.Transparency = 0;
-            //获得显示的图形元素
-            IFillSymbol pFillSymbol = new SimpleFillSymbolClass();
-            pFillSymbol.Color = pColor;
-            pFillSymbol.Outline = pOutline;
-            return pFillSymbol;
-        }
+
         #region 鹰眼视图上鼠标的事件
         /// <summary>
         /// 鹰眼视图上鼠标点击事件
@@ -285,9 +242,95 @@ namespace Arcgis.Controller
                 e.canEdit = false;
             }
         }
-        #endregion
-       
 
-      
+        public void chkCustomize_CheckStateChanged(object sender, System.EventArgs e)
+        {
+            //显示或者隐藏定制对话框
+            if (this.mainPage.chkCustomize.Checked == false)
+            {
+                m_CustomizeDialog.CloseDialog();
+            }
+            else {
+                m_CustomizeDialog.StartDialog(this.mainPage.axToolbarControl1.hWnd);
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// 地图控件和布局控件数据共享
+        /// </summary>
+        private void copyToPageLayout()
+        {
+            //IObjectCopy接口提供Copy方法用于地图的复制
+            IObjectCopy objectCopy = new ObjectCopyClass();
+            object copyFromMap = mainPage.axMapControl1.Map;//要copy的map
+            object copyMap = objectCopy.Copy(copyFromMap);
+            object copyToMap = mainPage.axPageLayoutControl1.ActiveView.FocusMap;
+            //Overwrite方法用于地图写入PageLayoutControl控件的视图中
+            objectCopy.Overwrite(copyMap, ref copyToMap);//引用传递焦点视图
+        }
+        /// <summary>
+        /// 获得鹰眼视图显示方框的symbol
+        /// </summary>
+        /// <returns></returns>
+        private IFillSymbol getFillSymbol()
+        {
+            //矩形框的边界线颜色
+            IRgbColor pColor = new RgbColorClass();
+            pColor.Red = 255;
+            pColor.Green = 0;
+            pColor.Blue = 0;
+            pColor.Transparency = 255;
+            //边界线
+            ILineSymbol pOutline = new SimpleLineSymbolClass();
+            pOutline.Width = 3;
+            pOutline.Color = pColor;
+            //symbol的背景色
+            pColor = new RgbColorClass();
+            pColor.Red = 255;
+            pColor.Green = 0;
+            pColor.Blue = 0;
+            pColor.Transparency = 0;
+            //获得显示的图形元素
+            IFillSymbol pFillSymbol = new SimpleFillSymbolClass();
+            pFillSymbol.Color = pColor;
+            pFillSymbol.Outline = pOutline;
+            return pFillSymbol;
+        }
+
+        //声明非模态定制对话框
+        private ICustomizeDialog m_CustomizeDialog = new CustomizeDialogClass();
+        //声明事件委托（打开和关闭对话框）
+        private ICustomizeDialogEvents_OnStartDialogEventHandler startDialogE;
+        private ICustomizeDialogEvents_OnCloseDialogEventHandler closeDialogE;
+
+        public void CreateCustomizeDialog()
+        {
+            //定义事件接口变量
+            ICustomizeDialogEvents_Event pCustomizeDialogEvent = m_CustomizeDialog as ICustomizeDialogEvents_Event;
+            //为当前事件实例化(打开对话框事件)
+            startDialogE = new ICustomizeDialogEvents_OnStartDialogEventHandler(OnStartDialogHandler);
+            //利用该事件接口对象实现打开对话框事件
+            pCustomizeDialogEvent.OnStartDialog+=startDialogE;
+            pCustomizeDialogEvent.OnCloseDialog += OnCloseDialogHandler;
+            m_CustomizeDialog.DialogTitle = "定制对话框";
+            m_CustomizeDialog.SetDoubleClickDestination(this.mainPage.axToolbarControl1);
+
+        }
+        /// <summary>
+        /// 打开定制对话框触发的方法
+        /// </summary>
+        private void OnStartDialogHandler()
+        {
+            this.mainPage.axToolbarControl1.Customize = true;
+        }
+        /// <summary>
+        /// 关闭定制对话框触发的方法
+        /// </summary>
+        private void OnCloseDialogHandler()
+        {
+            this.mainPage.axToolbarControl1.Customize = false;
+        }
+
     }
 }
