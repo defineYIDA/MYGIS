@@ -19,7 +19,7 @@ namespace Arcgis.Presenters
         /// <summary>
         /// 该控制器对应的view
         /// </summary>
-        public IAttributeTable view;
+        public IAttributeTable view {get;set;}
 
         public AttributeTablePresenter(IAttributeTable view)
         {

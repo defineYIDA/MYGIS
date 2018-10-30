@@ -48,11 +48,11 @@
             this.doc = new System.Windows.Forms.ToolStripMenuItem();
             this.openMapDoc = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.map = new System.Windows.Forms.ToolStripMenuItem();
+            this.data = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkCustomize = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.attributeTable = new System.Windows.Forms.ToolStripMenuItem();
             this.delLayer = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkCustomize = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -81,7 +81,7 @@
             this.axToolbarControl1.Location = new System.Drawing.Point(0, 25);
             this.axToolbarControl1.Name = "axToolbarControl1";
             this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
-            this.axToolbarControl1.Size = new System.Drawing.Size(696, 28);
+            this.axToolbarControl1.Size = new System.Drawing.Size(1127, 28);
             this.axToolbarControl1.TabIndex = 0;
             // 
             // splitContainer1
@@ -97,8 +97,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(696, 431);
-            this.splitContainer1.SplitterDistance = 232;
+            this.splitContainer1.Size = new System.Drawing.Size(1127, 695);
+            this.splitContainer1.SplitterDistance = 375;
             this.splitContainer1.TabIndex = 1;
             // 
             // splitContainer2
@@ -116,8 +116,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.axMapControl2);
-            this.splitContainer2.Size = new System.Drawing.Size(232, 431);
-            this.splitContainer2.SplitterDistance = 245;
+            this.splitContainer2.Size = new System.Drawing.Size(375, 695);
+            this.splitContainer2.SplitterDistance = 395;
             this.splitContainer2.TabIndex = 0;
             // 
             // axTOCControl1
@@ -126,11 +126,11 @@
             this.axTOCControl1.Location = new System.Drawing.Point(0, 0);
             this.axTOCControl1.Name = "axTOCControl1";
             this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
-            this.axTOCControl1.Size = new System.Drawing.Size(232, 245);
+            this.axTOCControl1.Size = new System.Drawing.Size(375, 395);
             this.axTOCControl1.TabIndex = 1;
-            this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this._Controller.axTOCControl1_OnMouseDown);
-            this.axTOCControl1.OnBeginLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnBeginLabelEditEventHandler(this._Controller.axTOCControl1_OnBeginLabelEdit);
-            this.axTOCControl1.OnEndLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnEndLabelEditEventHandler(this._Controller.axTOCControl1_OnEndLabelEdit);
+            this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this.axTOCControl1_OnMouseDown);
+            this.axTOCControl1.OnBeginLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnBeginLabelEditEventHandler(this.axTOCControl1_OnBeginLabelEdit);
+            this.axTOCControl1.OnEndLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnEndLabelEditEventHandler(this.axTOCControl1_OnEndLabelEdit);
             // 
             // axLicenseControl1
             // 
@@ -147,10 +147,10 @@
             this.axMapControl2.Location = new System.Drawing.Point(0, 0);
             this.axMapControl2.Name = "axMapControl2";
             this.axMapControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl2.OcxState")));
-            this.axMapControl2.Size = new System.Drawing.Size(232, 182);
+            this.axMapControl2.Size = new System.Drawing.Size(375, 296);
             this.axMapControl2.TabIndex = 0;
-            this.axMapControl2.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this._Controller.axMapControl2_OnMouseDown);
-            this.axMapControl2.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this._Controller.axMapControl2_OnMouseMove);
+            this.axMapControl2.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl2_OnMouseDown);
+            this.axMapControl2.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl2_OnMouseMove);
             // 
             // tabControl1
             // 
@@ -160,7 +160,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(460, 431);
+            this.tabControl1.Size = new System.Drawing.Size(748, 695);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -169,7 +169,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(452, 405);
+            this.tabPage1.Size = new System.Drawing.Size(740, 669);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "数据视图";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -180,11 +180,11 @@
             this.axMapControl1.Location = new System.Drawing.Point(3, 3);
             this.axMapControl1.Name = "axMapControl1";
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(446, 399);
+            this.axMapControl1.Size = new System.Drawing.Size(734, 663);
             this.axMapControl1.TabIndex = 0;
-            this.axMapControl1.OnAfterScreenDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterScreenDrawEventHandler(this._Controller.axMapControl1_OnAfterScreenDraw);
-            this.axMapControl1.OnExtentUpdated += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnExtentUpdatedEventHandler(this._Controller.axMapControl1_OnExtentUpdated);
-            this.axMapControl1.OnMapReplaced += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMapReplacedEventHandler(this._Controller.axMapControl1_OnMapReplaced);
+            this.axMapControl1.OnAfterScreenDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterScreenDrawEventHandler(this.axMapControl1_OnAfterScreenDraw);
+            this.axMapControl1.OnExtentUpdated += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnExtentUpdatedEventHandler(this.axMapControl1_OnExtentUpdated);
+            this.axMapControl1.OnMapReplaced += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMapReplacedEventHandler(this.axMapControl1_OnMapReplaced);
             // 
             // tabPage2
             // 
@@ -192,7 +192,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(452, 405);
+            this.tabPage2.Size = new System.Drawing.Size(740, 669);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "布局视图";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -203,16 +203,16 @@
             this.axPageLayoutControl1.Location = new System.Drawing.Point(3, 3);
             this.axPageLayoutControl1.Name = "axPageLayoutControl1";
             this.axPageLayoutControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axPageLayoutControl1.OcxState")));
-            this.axPageLayoutControl1.Size = new System.Drawing.Size(446, 399);
+            this.axPageLayoutControl1.Size = new System.Drawing.Size(734, 663);
             this.axPageLayoutControl1.TabIndex = 0;
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 484);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 748);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(696, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1127, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -226,11 +226,11 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.doc,
-            this.map,
+            this.data,
             this.chkCustomize});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(696, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1127, 25);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -248,20 +248,27 @@
             this.openMapDoc.Name = "openMapDoc";
             this.openMapDoc.Size = new System.Drawing.Size(112, 22);
             this.openMapDoc.Text = "打开";
-            this.openMapDoc.Click += new System.EventHandler(this._Controller.openMapDoc_Click);
+            this.openMapDoc.Click += new System.EventHandler(this.openMapDoc_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
             this.toolStripMenuItem1.Text = "另存为";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this._Controller.toolStripMenuItem1_Click);
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
-            // map
+            // data
             // 
-            this.map.Name = "map";
-            this.map.Size = new System.Drawing.Size(44, 21);
-            this.map.Text = "数据";
+            this.data.Name = "data";
+            this.data.Size = new System.Drawing.Size(44, 21);
+            this.data.Text = "数据";
+            // 
+            // chkCustomize
+            // 
+            this.chkCustomize.Name = "chkCustomize";
+            this.chkCustomize.Size = new System.Drawing.Size(80, 21);
+            this.chkCustomize.Text = "定制对话框";
+            this.chkCustomize.CheckStateChanged += new System.EventHandler(this.chkCustomize_CheckStateChanged);
             // 
             // contextMenuStrip1
             // 
@@ -276,7 +283,7 @@
             this.attributeTable.Name = "attributeTable";
             this.attributeTable.Size = new System.Drawing.Size(124, 22);
             this.attributeTable.Text = "属性表";
-            this.attributeTable.Click += new System.EventHandler(this._Controller.attributeTable_Click);
+            this.attributeTable.Click += new System.EventHandler(this.attributeTable_Click);
             // 
             // delLayer
             // 
@@ -284,24 +291,18 @@
             this.delLayer.Size = new System.Drawing.Size(124, 22);
             this.delLayer.Text = "删除图层";
             // 
-            // chkCustomize
-            // 
-            this.chkCustomize.Name = "chkCustomize";
-            this.chkCustomize.Size = new System.Drawing.Size(41, 21);
-            this.chkCustomize.Text = "定制对话框";
-            this.chkCustomize.CheckStateChanged += new System.EventHandler(this._Controller.chkCustomize_CheckStateChanged);
-            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 506);
+            this.ClientSize = new System.Drawing.Size(1127, 770);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.axToolbarControl1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainPage";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "APP";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
@@ -355,6 +356,7 @@
         public System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         public System.Windows.Forms.ToolStripMenuItem delLayer;
         public System.Windows.Forms.ToolStripMenuItem chkCustomize;
+        private System.Windows.Forms.ToolStripMenuItem data;
     }
 }
 

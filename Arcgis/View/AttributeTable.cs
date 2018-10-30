@@ -20,9 +20,26 @@ namespace Arcgis.View
 {
     public partial class AttributeTable : Form,Arcgis.Presenters.IAttributeTable
     {
-        //图层对象数据源
-        public ILayer mLayer{get;set;}
+
+        /// <summary>
+        /// 该view对应的presenter
+        /// </summary>
+        private AttributeTablePresenter presenter;
+        public AttributeTablePresenter Presenter
+        {
+            get { return presenter; }
+            set { presenter = value; }
+        }
         
+        /// <summary>
+        /// 图层对象数据源
+        /// </summary>
+        public ILayer mLayer { get; set; }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="layer"></param>
         public AttributeTable(ILayer layer)
         {
             this.presenter = new AttributeTablePresenter(this);
@@ -30,15 +47,10 @@ namespace Arcgis.View
             mLayer = layer;
         }
         /// <summary>
-        /// 该view对应的controller
+        /// Load事件
         /// </summary>
-        private AttributeTablePresenter presenter;
-
-        public AttributeTablePresenter Presenter
-        {
-            get { return presenter; }
-            set { presenter = value; }
-        }
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AttributeTable_Load(object sender, EventArgs e)
         {
             AttributedataGridView.DataSource = this.presenter.fillAttributeTable();
