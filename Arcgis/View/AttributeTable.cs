@@ -14,33 +14,34 @@ using System.Runtime.InteropServices;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.Geodatabase;
-using Arcgis.Controller;
+using Arcgis.Presenters;
 
 namespace Arcgis.View
 {
-    public partial class AttributeTable : Form
+    public partial class AttributeTable : Form,Arcgis.Presenters.IAttributeTable
     {
-        ILayer mLayer;//图层对象
-
+        //图层对象数据源
+        public ILayer mLayer{get;set;}
+        
         public AttributeTable(ILayer layer)
         {
-            AttributeTableController attributeTableController = new AttributeTableController(this);
+            this.presenter = new AttributeTablePresenter(this);
             InitializeComponent();
             mLayer = layer;
         }
         /// <summary>
         /// 该view对应的controller
         /// </summary>
-        private AttributeTableController _Controller;
+        private AttributeTablePresenter presenter;
 
-        public AttributeTableController Controller
+        public AttributeTablePresenter Presenter
         {
-            get { return _Controller; }
-            set { _Controller = value; }
+            get { return presenter; }
+            set { presenter = value; }
         }
         private void AttributeTable_Load(object sender, EventArgs e)
         {
-            AttributedataGridView.DataSource = this._Controller.fillAttributeTable(mLayer);
+            AttributedataGridView.DataSource = this.presenter.fillAttributeTable();
         }
     }
 }
