@@ -11,33 +11,31 @@ using System.Runtime.InteropServices;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.Geodatabase;
-using Arcgis.View;
 
-namespace Arcgis.Controller
+namespace Arcgis.Presenters
 {
-    public class AttributeTableController
+    public class AttributeTablePresenter
     {
         /// <summary>
         /// 该控制器对应的view
         /// </summary>
-        public AttributeTable attributeTable;
+        public IAttributeTable view {get;set;}
 
-        public AttributeTableController(AttributeTable view)
+        public AttributeTablePresenter(IAttributeTable view)
         {
-            //通过构造函数给view赋值
-            this.attributeTable = view;
-            this.attributeTable.Controller=this;
+            this.view = view;//通过构造函数给view赋值           
         }
         /// <summary>
         /// 处理图层获取属性表
         /// </summary>
         /// <param name="mLayer"></param>
         /// <returns></returns>
-        public DataTable fillAttributeTable(ILayer mLayer)
+        public DataTable fillAttributeTable()
         {
+            ILayer mLayer = this.view.mLayer;
             IFeatureLayer pFeatureLayer = mLayer as IFeatureLayer;
             IFeatureClass pFeatureClass = pFeatureLayer.FeatureClass;
-            DataTable dt = new DataTable();
+            DataTable dt = new DataTable();//生成存放数据的表
             if (pFeatureClass != null)
             {
                 DataColumn dc;
