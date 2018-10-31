@@ -5,6 +5,13 @@ using ESRI.ArcGIS.ADF.BaseClasses;
 using ESRI.ArcGIS.ADF.CATIDs;
 using ESRI.ArcGIS.Controls;
 using System.Windows.Forms;
+using ESRI.ArcGIS.esriSystem;
+using ESRI.ArcGIS.Display;
+using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.SystemUI;
+//using System.Runtime.InteroperationServices;
+using ESRI.ArcGIS.Geometry;
+using ESRI.ArcGIS.Controls;
 
 namespace Arcgis.Tools
 {
@@ -66,7 +73,7 @@ namespace Arcgis.Tools
         #endregion
         #endregion
 
-        private IGlobeHookHelper m_globeHookHelper = null;
+        private IHookHelper m_globeHookHelper = null;
         AxToolbarControl toolBar;
         AxPageLayoutControl pageLayout;
 
@@ -107,9 +114,9 @@ namespace Arcgis.Tools
         {
             try
             {
-                m_globeHookHelper = new GlobeHookHelperClass();
+                m_globeHookHelper = new HookHelperClass();
                 m_globeHookHelper.Hook = hook;
-                if (m_globeHookHelper.ActiveViewer == null)
+                if (m_globeHookHelper.ActiveView == null)
                 {
                     m_globeHookHelper = null;
                 }
@@ -139,6 +146,28 @@ namespace Arcgis.Tools
         public override void OnMouseDown(int Button, int Shift, int X, int Y)
         {
             // TODO:  Add AddDataTool.OnMouseDown implementation
+            base.OnMouseDown(Button, Shift, X, Y);
+            //获得当前活动视图
+            IActiveView activeView = m_globeHookHelper.ActiveView;
+            //创建新的文本元素
+            ITextElement textElement = new TextElementClass();
+            //创建文本符号
+            ITextSymbol textSymbol = new TextSymbolClass();
+            textSymbol.Size = 25;
+            //设置文本元素属性
+            textElement.Symbol = textSymbol;
+            textElement.Text = DateTime.Now.ToShortDateString();
+            IElement element = textElement as IElement;
+            //创建点
+            IPoint point = new PointClass();
+            point = activeView.ScreenDisplay.DisplayTransformation.ToMapPoint(X,Y);
+            //设置元素属性
+            element.Geometry = point;
+            //增加元素到图形的绘制容器
+            activeView.GraphicsContainer.AddElement(element,0);
+            //refresh
+            activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics,null,null);
+
         }
 
         public override void OnMouseMove(int Button, int Shift, int X, int Y)

@@ -106,13 +106,16 @@ namespace Arcgis.Commands
 
             try
             {
+               
                 m_globeHookHelper = new GlobeHookHelperClass();
                 m_globeHookHelper.Hook = hook;
+
                 pToolbarControl = hook as IToolbarControl;
-                if (m_globeHookHelper.ActiveViewer == null)
-                {
-                    m_globeHookHelper = null;
-                }
+
+                //if (m_globeHookHelper.ActiveViewer == null)
+                //{
+                //    m_globeHookHelper = null;
+                //}
             }
             catch
             {

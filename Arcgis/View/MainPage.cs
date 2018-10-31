@@ -58,6 +58,7 @@ namespace Arcgis.View
         {
 
             axTOCControl1.SetBuddyControl(axMapControl1);
+            axToolbarControl1.SetBuddyControl(axMapControl1);
             //定制菜单
             chkCustomize.Checked = false;
             chkCustomize.CheckOnClick = true;
