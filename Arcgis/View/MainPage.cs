@@ -17,6 +17,7 @@ using ESRI.ArcGIS.Controls;
 using Arcgis.Presenters;
 using Arcgis.Commands;
 using Arcgis.Tools;
+using Symbology;
 
 
 namespace Arcgis.View
@@ -56,7 +57,8 @@ namespace Arcgis.View
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            IMenuDef menu = new Symbology.SymbologyMenu();
+            axToolbarControl1.AddItem(menu,-1,-1,false,-1,esriCommandStyles.esriCommandStyleIconAndText);
             axTOCControl1.SetBuddyControl(axMapControl1);
             axToolbarControl1.SetBuddyControl(axMapControl1);
             //定制菜单
