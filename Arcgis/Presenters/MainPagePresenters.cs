@@ -13,6 +13,9 @@ using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.Geodatabase;
 using Arcgis.View;
 using System.Windows.Forms;
+using ESRI.ArcGIS.DataSourcesFile;//ShapefileWorkspaceFactory CoClass的程序集
+using ESRI.ArcGIS.DataSourcesRaster;//RasterWorkspaceFactoryClass
+using ESRI.ArcGIS.DataSourcesGDB;//RasterWorkspaceFactoryClass
 
 namespace Arcgis.Presenters
 { 
@@ -130,6 +133,125 @@ namespace Arcgis.Presenters
         {
             this.view.axToolbarControl1.Customize = false;
         }
+        /// <summary>
+        /// 添加矢量数据
+        /// </summary>
+        public void addShpData()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Title = "请选择地理数据文件";
+            openFileDialog1.Filter = "矢量数据文件(*.shp)|*.shp";//设置过滤属性
+            openFileDialog1.Multiselect = false;
+            if (openFileDialog1.ShowDialog() != DialogResult.OK) return;//未选择文件return
+            string[] fileNames = openFileDialog1.FileNames;//获取到文件路径
+            for (int i = 0; i < fileNames.Length;i++ )
+            {
+                ILayer layer = addShpData(fileNames[i]);
+                this.view.axMapControl1.Map.AddLayer(layer);
+            }
+        }
+        /// <summary>
+        /// 添加shp文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        private ILayer addShpData(string fileName)
+        {
+            string workSpacePath = System.IO.Path.GetDirectoryName(fileName);
+            string shapeFileName = System.IO.Path.GetFileName(fileName);
+            IWorkspaceFactory wsf = new ShapefileWorkspaceFactoryClass();
+            IFeatureWorkspace fws = (IFeatureWorkspace)wsf.OpenFromFile(workSpacePath, 0);//打开工作空间
+            IFeatureClass pFeatureClass = fws.OpenFeatureClass(shapeFileName);
+            IDataset pDataset = pFeatureClass as IDataset;
+            IFeatureLayer pFeatureLayer = new FeatureLayerClass();
+            pFeatureLayer.FeatureClass = pFeatureClass;
+            pFeatureLayer.Name = pDataset.Name;
+            ILayer pLayer = pFeatureLayer as ILayer;
+            return pLayer;
+        }
+        /// <summary>
+        /// 添加栅格数据
+        /// </summary>
+        public void addRasterData()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Title = "请选择地理数据文件";
+            openFileDialog1.Filter = "栅格数据文件(*.jpg)|*.jpg";//设置过滤属性
+            openFileDialog1.Multiselect = false;
+            if (openFileDialog1.ShowDialog() != DialogResult.OK) return;//未选择文件return
+            string fileName = openFileDialog1.FileName;//获取到文件路径
+            ILayer layer = openRasterFile(fileName);
+            this.view.axMapControl1.AddLayer(layer);
+        }
+        /// <summary>
+        /// 打开栅格文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        private ILayer openRasterFile(string fileName)
+        {
+            string workSpacePath = System.IO.Path.GetDirectoryName(fileName);
+            string RasterFileName = System.IO.Path.GetFileName(fileName);
+            IWorkspaceFactory wsf = new RasterWorkspaceFactoryClass();
+            IRasterWorkspace rws = (IRasterWorkspace)wsf.OpenFromFile(workSpacePath, 0);//打开工作空间
+            IRasterDataset rasterDataset = rws.OpenRasterDataset(RasterFileName);
+            //影像金字塔判断与创建
+            IRasterPyramid rasPyrmid = rasterDataset as IRasterPyramid;
+            if (rasPyrmid != null) 
+            {
+                if (!(rasPyrmid.Present)) rasPyrmid.Create();
+            }
+            IRaster raster = rasterDataset.CreateDefaultRaster();
+            IRasterLayer rLayer = new RasterLayerClass();
+            ILayer layer = rLayer as ILayer;
+            return layer;
+        }
+        /// <summary>
+        /// 添加个人地理数据库
+        /// </summary>
+        public void addDataSet()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Title = "请选择地理数据文件";
+            openFileDialog1.Filter = "个人数据库(*.mdb)|*.mdb";//设置过滤属性
+            openFileDialog1.Multiselect = false;
+            if (openFileDialog1.ShowDialog() != DialogResult.OK) return;//未选择文件return
+            string fileName = openFileDialog1.FileName;//获取到文件路径
+            string pFolder = System.IO.Path.GetDirectoryName(fileName);
+            string pFileName = System.IO.Path.GetFileName(fileName);
+            IWorkspaceFactory wsf = new AccessWorkspaceFactoryClass();//打开数据库
+            IWorkspace ws = wsf.OpenFromFile(fileName,0);
+            if(ws!=null)
+            {
+                MessageBox.Show("个人数据库"+pFileName+"打开成功！");
+                addDataSetMap(ws);
+            }
+            else{
+                MessageBox.Show("个人数据库"+pFileName+"打开失败！");
+            }           
+        }
+        /// <summary>
+        /// 打开个人地理数据库
+        /// </summary>
+        /// <param name="ws"></param>
+        private void addDataSetMap(IWorkspace ws)
+        {
+            IEnumDataset pEnumDataset;
+            pEnumDataset=ws.get_Datasets(esriDatasetType.esriDTFeatureClass);
+            IDataset pDataset;
+            pEnumDataset.Reset();
+            pDataset=pEnumDataset.Next();
+            while(pDataset!=null)
+            {
+                IFeatureClass pFeatureClass = pDataset as IFeatureClass;
+                IFeatureLayer pLayer=new FeatureLayerClass();
+                pLayer.FeatureClass=pFeatureClass;
+                pLayer.Name=pDataset.Name;
+                MessageBox.Show("添加要素类"+pDataset.Name+"！");
+                this.view.axMapControl1.AddLayer(pLayer);
+                pDataset=pEnumDataset.Next();
 
+            }
+        }
     }
 }

@@ -281,6 +281,33 @@ namespace Arcgis.View
             }
         }
         #endregion
+        /// <summary>
+        /// 打开矢量文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openSHPData_Click(object sender, EventArgs e)
+        {
+            this.presenter.addShpData();
+        }
+        /// <summary>
+        /// 打开栅格文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openRasterFile_Click(object sender, EventArgs e)
+        {
+            this.presenter.addRasterData();
+        }
+        /// <summary>
+        /// 打开个人地理数据库
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openPersonalDataSet_Click(object sender, EventArgs e)
+        {
+            this.presenter.addDataSet();
+        }
 
     }
 }

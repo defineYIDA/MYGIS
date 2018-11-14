@@ -53,6 +53,10 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.attributeTable = new System.Windows.Forms.ToolStripMenuItem();
             this.delLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.openSHPData = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRasterFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPersonalDataSet = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -259,6 +263,11 @@
             // 
             // data
             // 
+            this.data.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openSHPData,
+            this.openRasterFile,
+            this.openPersonalDataSet,
+            this.toolStripSeparator1});
             this.data.Name = "data";
             this.data.Size = new System.Drawing.Size(44, 21);
             this.data.Text = "数据";
@@ -290,6 +299,32 @@
             this.delLayer.Name = "delLayer";
             this.delLayer.Size = new System.Drawing.Size(124, 22);
             this.delLayer.Text = "删除图层";
+            // 
+            // openSHPData
+            // 
+            this.openSHPData.Name = "openSHPData";
+            this.openSHPData.Size = new System.Drawing.Size(160, 22);
+            this.openSHPData.Text = "添加矢量数据";
+            this.openSHPData.Click += new System.EventHandler(this.openSHPData_Click);
+            // 
+            // openRasterFile
+            // 
+            this.openRasterFile.Name = "openRasterFile";
+            this.openRasterFile.Size = new System.Drawing.Size(160, 22);
+            this.openRasterFile.Text = "添加栅格数据";
+            this.openRasterFile.Click += new System.EventHandler(this.openRasterFile_Click);
+            // 
+            // openPersonalDataSet
+            // 
+            this.openPersonalDataSet.Name = "openPersonalDataSet";
+            this.openPersonalDataSet.Size = new System.Drawing.Size(160, 22);
+            this.openPersonalDataSet.Text = "打开个人数据库";
+            this.openPersonalDataSet.Click += new System.EventHandler(this.openPersonalDataSet_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
             // 
             // MainPage
             // 
@@ -357,6 +392,10 @@
         public System.Windows.Forms.ToolStripMenuItem delLayer;
         public System.Windows.Forms.ToolStripMenuItem chkCustomize;
         private System.Windows.Forms.ToolStripMenuItem data;
+        private System.Windows.Forms.ToolStripMenuItem openSHPData;
+        private System.Windows.Forms.ToolStripMenuItem openRasterFile;
+        private System.Windows.Forms.ToolStripMenuItem openPersonalDataSet;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
