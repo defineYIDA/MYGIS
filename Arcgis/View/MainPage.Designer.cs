@@ -49,14 +49,20 @@
             this.openMapDoc = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.data = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkCustomize = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.attributeTable = new System.Windows.Forms.ToolStripMenuItem();
-            this.delLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.openSHPData = new System.Windows.Forms.ToolStripMenuItem();
             this.openRasterFile = new System.Windows.Forms.ToolStripMenuItem();
             this.openPersonalDataSet = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.createFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkCustomize = new System.Windows.Forms.ToolStripMenuItem();
+            this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.starEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.endEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectLayer = new System.Windows.Forms.ToolStripComboBox();
+            this.addLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.attributeTable = new System.Windows.Forms.ToolStripMenuItem();
+            this.delLayer = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -231,7 +237,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.doc,
             this.data,
-            this.chkCustomize});
+            this.chkCustomize,
+            this.编辑ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1127, 25);
@@ -267,38 +274,10 @@
             this.openSHPData,
             this.openRasterFile,
             this.openPersonalDataSet,
-            this.toolStripSeparator1});
+            this.createFeatureClass});
             this.data.Name = "data";
             this.data.Size = new System.Drawing.Size(44, 21);
             this.data.Text = "数据";
-            // 
-            // chkCustomize
-            // 
-            this.chkCustomize.Name = "chkCustomize";
-            this.chkCustomize.Size = new System.Drawing.Size(80, 21);
-            this.chkCustomize.Text = "定制对话框";
-            this.chkCustomize.CheckStateChanged += new System.EventHandler(this.chkCustomize_CheckStateChanged);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.attributeTable,
-            this.delLayer});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 48);
-            // 
-            // attributeTable
-            // 
-            this.attributeTable.Name = "attributeTable";
-            this.attributeTable.Size = new System.Drawing.Size(124, 22);
-            this.attributeTable.Text = "属性表";
-            this.attributeTable.Click += new System.EventHandler(this.attributeTable_Click);
-            // 
-            // delLayer
-            // 
-            this.delLayer.Name = "delLayer";
-            this.delLayer.Size = new System.Drawing.Size(124, 22);
-            this.delLayer.Text = "删除图层";
             // 
             // openSHPData
             // 
@@ -321,10 +300,83 @@
             this.openPersonalDataSet.Text = "打开个人数据库";
             this.openPersonalDataSet.Click += new System.EventHandler(this.openPersonalDataSet_Click);
             // 
-            // toolStripSeparator1
+            // createFeatureClass
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
+            this.createFeatureClass.Name = "createFeatureClass";
+            this.createFeatureClass.Size = new System.Drawing.Size(160, 22);
+            this.createFeatureClass.Text = "创建要素类";
+            this.createFeatureClass.Click += new System.EventHandler(this.createFeatureClass_Click);
+            // 
+            // chkCustomize
+            // 
+            this.chkCustomize.Name = "chkCustomize";
+            this.chkCustomize.Size = new System.Drawing.Size(80, 21);
+            this.chkCustomize.Text = "定制对话框";
+            this.chkCustomize.CheckStateChanged += new System.EventHandler(this.chkCustomize_CheckStateChanged);
+            // 
+            // 编辑ToolStripMenuItem
+            // 
+            this.编辑ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.starEdit,
+            this.saveEdit,
+            this.endEdit,
+            this.selectLayer,
+            this.addLayer});
+            this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
+            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.编辑ToolStripMenuItem.Text = "编辑";
+            // 
+            // starEdit
+            // 
+            this.starEdit.Name = "starEdit";
+            this.starEdit.Size = new System.Drawing.Size(181, 22);
+            this.starEdit.Text = "开始编辑";
+            this.starEdit.Click += new System.EventHandler(this.starEdit_Click);
+            // 
+            // saveEdit
+            // 
+            this.saveEdit.Name = "saveEdit";
+            this.saveEdit.Size = new System.Drawing.Size(181, 22);
+            this.saveEdit.Text = "保存编辑";
+            // 
+            // endEdit
+            // 
+            this.endEdit.Name = "endEdit";
+            this.endEdit.Size = new System.Drawing.Size(181, 22);
+            this.endEdit.Text = "结束编辑";
+            // 
+            // selectLayer
+            // 
+            this.selectLayer.Name = "selectLayer";
+            this.selectLayer.Size = new System.Drawing.Size(121, 25);
+            this.selectLayer.SelectedIndexChanged += new System.EventHandler(this.selectLayer_SelectedIndexChanged);
+            // 
+            // addLayer
+            // 
+            this.addLayer.Name = "addLayer";
+            this.addLayer.Size = new System.Drawing.Size(181, 22);
+            this.addLayer.Text = "添加要素";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.attributeTable,
+            this.delLayer});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 48);
+            // 
+            // attributeTable
+            // 
+            this.attributeTable.Name = "attributeTable";
+            this.attributeTable.Size = new System.Drawing.Size(124, 22);
+            this.attributeTable.Text = "属性表";
+            this.attributeTable.Click += new System.EventHandler(this.attributeTable_Click);
+            // 
+            // delLayer
+            // 
+            this.delLayer.Name = "delLayer";
+            this.delLayer.Size = new System.Drawing.Size(124, 22);
+            this.delLayer.Text = "删除图层";
             // 
             // MainPage
             // 
@@ -395,7 +447,13 @@
         private System.Windows.Forms.ToolStripMenuItem openSHPData;
         private System.Windows.Forms.ToolStripMenuItem openRasterFile;
         private System.Windows.Forms.ToolStripMenuItem openPersonalDataSet;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem createFeatureClass;
+        private System.Windows.Forms.ToolStripMenuItem 编辑ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem starEdit;
+        public System.Windows.Forms.ToolStripMenuItem saveEdit;
+        public System.Windows.Forms.ToolStripMenuItem endEdit;
+        public System.Windows.Forms.ToolStripComboBox selectLayer;
+        public System.Windows.Forms.ToolStripMenuItem addLayer;
     }
 }
 
