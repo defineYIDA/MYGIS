@@ -18,8 +18,10 @@ using Arcgis.Presenters;
 using Arcgis.Commands;
 using Arcgis.Tools;
 using Symbology;
-
-
+using ESRI.ArcGIS.DataSourcesFile;//ShapefileWorkspaceFactory CoClass的程序集
+using ESRI.ArcGIS.DataSourcesRaster;//RasterWorkspaceFactoryClass
+using ESRI.ArcGIS.DataSourcesGDB;//RasterWorkspaceFactoryClass
+using ESRI.ArcGIS.Geodatabase;
 namespace Arcgis.View
 {
     public partial class MainPage : Form
@@ -28,6 +30,10 @@ namespace Arcgis.View
         /// 图层对象
         /// </summary>
         private ILayer layer;
+        /// <summary>
+        /// 选中的图层
+        /// </summary>
+        public IFeatureLayer pCurrentLyr = null;
         /// <summary>
         /// 该view对应的controller
         /// </summary>
@@ -69,6 +75,11 @@ namespace Arcgis.View
             //初始化自定义命令
             axToolbarControl1.AddItem(new ClearCurrentActiveToolCmd(),-1,-1,false,0,esriCommandStyles.esriCommandStyleIconAndText);
             axToolbarControl1.AddItem(new AddDateTool(axToolbarControl1, axPageLayoutControl1), -1, -1, false, 0, esriCommandStyles.esriCommandStyleIconAndText);
+            //设置编辑菜单的状态
+            saveEdit.Enabled = false;
+            endEdit.Enabled = false;
+            selectLayer.Enabled = false;
+            addLayer.Enabled = false;
         }
         #region MainPage的事件
 
@@ -307,6 +318,41 @@ namespace Arcgis.View
         private void openPersonalDataSet_Click(object sender, EventArgs e)
         {
             this.presenter.addDataSet();
+        }
+        /// <summary>
+        ///创建要素
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void createFeatureClass_Click(object sender, EventArgs e)
+        {
+            this.presenter.createFeatureClass();
+        }
+        /// <summary>
+        /// 开始编辑
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void starEdit_Click(object sender, EventArgs e)
+        {
+            this.presenter.startEdit();
+        }
+        /// <summary>
+        /// 选中图层
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void selectLayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selectLayer.SelectedItem == null) return;
+            string lyrName = selectLayer.SelectedItem.ToString();
+            ILayer layer = this.presenter.SelectedIndexChanged(lyrName);
+            if(layer==null)return;
+            pCurrentLyr = layer as IFeatureLayer;
+            IDataset pDataset = pCurrentLyr.FeatureClass as IDataset;
+            IWorkspace pws = pDataset.Workspace;
+            MessageBox.Show("ok");
+            
         }
 
     }
