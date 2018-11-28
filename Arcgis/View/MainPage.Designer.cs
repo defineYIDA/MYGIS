@@ -338,12 +338,14 @@
             this.saveEdit.Name = "saveEdit";
             this.saveEdit.Size = new System.Drawing.Size(181, 22);
             this.saveEdit.Text = "保存编辑";
+            this.saveEdit.Click += new System.EventHandler(this.saveEdit_Click);
             // 
             // endEdit
             // 
             this.endEdit.Name = "endEdit";
             this.endEdit.Size = new System.Drawing.Size(181, 22);
             this.endEdit.Text = "结束编辑";
+            this.endEdit.Click += new System.EventHandler(this.endEdit_Click);
             // 
             // selectLayer
             // 

@@ -355,5 +355,21 @@ namespace Arcgis.View
             
         }
 
+        private void saveEdit_Click(object sender, EventArgs e)
+        {
+            ICommand m_SavaEditCmd = new SaveEditCmd();
+            m_SavaEditCmd.OnCreate(axMapControl1.Object);
+            m_SavaEditCmd.OnClick();
+        }
+
+        private void endEdit_Click(object sender, EventArgs e)
+        {
+            ICommand m_StopEditCmd = new StopEditCmd();
+            m_StopEditCmd.OnCreate(axMapControl1.Object);
+            m_StopEditCmd.OnClick();
+            axMapControl1.CurrentTool = null;
+            axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
+        }
+
     }
 }
