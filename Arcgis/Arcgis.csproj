@@ -101,6 +101,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ClearCurrentActiveToolCmd.cs" />
+    <Compile Include="Commands\SaveEditCmd.cs" />
+    <Compile Include="Commands\StopEditCmd.cs" />
     <Compile Include="Presenters\AttributeTablePresenter.cs" />
     <Compile Include="Presenters\IAttributeTable.cs" />
     <Compile Include="Presenters\MainPagePresenters.cs" />
@@ -156,6 +158,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tools\AddDateTool.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Commands\SaveEditCmd.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Commands\StopEditCmd.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
