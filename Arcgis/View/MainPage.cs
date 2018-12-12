@@ -370,6 +370,15 @@ namespace Arcgis.View
             axMapControl1.CurrentTool = null;
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
         }
+        /// <summary>
+        /// 添加要素
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void addLayer_Click(object sender, EventArgs e)
+        {
+
+        }
 
     }
 }

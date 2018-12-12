@@ -108,6 +108,7 @@
     <Compile Include="Presenters\MainPagePresenters.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Tools\AddDateTool.cs" />
+    <Compile Include="Tools\CreatFeatureToolClass.cs" />
     <Compile Include="View\MainPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +165,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Commands\StopEditCmd.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tools\CreatFeatureToolClass.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tools\CreatFeatureToolClass.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
