@@ -103,6 +103,8 @@
     <Compile Include="Commands\ClearCurrentActiveToolCmd.cs" />
     <Compile Include="Commands\SaveEditCmd.cs" />
     <Compile Include="Commands\StopEditCmd.cs" />
+    <Compile Include="IDName\MapManager.cs" />
+    <Compile Include="IDName\SupportZMFeature.cs" />
     <Compile Include="Presenters\AttributeTablePresenter.cs" />
     <Compile Include="Presenters\IAttributeTable.cs" />
     <Compile Include="Presenters\MainPagePresenters.cs" />

@@ -327,7 +327,7 @@ namespace Arcgis.Presenters
             this.view.endEdit.Enabled = true;
             this.view.selectLayer.Enabled = true;
             this.view.addLayer.Enabled = true;
-
+            this.view.pMap = this.view.axMapControl1.Map;
             if (this.view.axMapControl1.Map.LayerCount == 0)
             {
 
@@ -342,6 +342,23 @@ namespace Arcgis.Presenters
             {
                 this.view.selectLayer.Items.Add(this.view.axMapControl1.Map.get_Layer(i).Name);
             }
+            if (this.view.selectLayer.Items.Count != 0) this.view.selectLayer.SelectedIndex = 0; //默认选择顶层图层
+            IDataset pDataSet = this.view.pCurrentLyr.FeatureClass as IDataset; //获取当前编辑图层工作空间
+            IWorkspace pws = pDataSet.Workspace;
+            //设置编辑模式,如果是ArcSDE采用版本模式
+            if (pws.Type == esriWorkspaceType.esriRemoteDatabaseWorkspace)
+            {
+                this.view.pEngineEditor.EditSessionMode = esriEngineEditSessionMode.esriEngineEditSessionModeVersioned;
+            }else{
+                this.view.pEngineEditor.EditSessionMode = esriEngineEditSessionMode.esriEngineEditSessionModeNonVersioned;
+            }
+            //设置编辑任务
+            this.view.pEngineEditTask = this.view.pEngineEditor.GetTaskByUniqueName("ControlToolsEditing_CreateNewFeatureTask");
+            this.view.pEngineEditor.CurrentTask = this.view.pEngineEditTask;
+            this.view.pEngineEditor.EnableUndoRedo(true);
+            this.view.pEngineEditor.StartEditing(pws, this.view.pMap);
+            MessageBox.Show("Ok");
+
         }
         public ILayer SelectedIndexChanged(string lyrName)
         {

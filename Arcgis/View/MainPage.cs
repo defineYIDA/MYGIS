@@ -22,6 +22,8 @@ using ESRI.ArcGIS.DataSourcesFile;//ShapefileWorkspaceFactory CoClass的程序�
 using ESRI.ArcGIS.DataSourcesRaster;//RasterWorkspaceFactoryClass
 using ESRI.ArcGIS.DataSourcesGDB;//RasterWorkspaceFactoryClass
 using ESRI.ArcGIS.Geodatabase;
+using Arcgis.IDName;
+using Arcgis.Tools;
 namespace Arcgis.View
 {
     public partial class MainPage : Form
@@ -38,6 +40,12 @@ namespace Arcgis.View
         /// 该view对应的controller
         /// </summary>
         private MainPagePresenters presenter;
+        //---
+        public IEngineEditor pEngineEditor = null;
+        public IEngineEditTask pEngineEditTask = null;
+        public IEngineEditLayers pEngineEditLayers = null;
+        public IMap pMap = null;
+        //---
         public MainPagePresenters Presenter
         {
             get { return presenter; }
@@ -80,6 +88,13 @@ namespace Arcgis.View
             endEdit.Enabled = false;
             selectLayer.Enabled = false;
             addLayer.Enabled = false;
+            //
+            pEngineEditor = new EngineEditorClass(); 
+            MapManager.EngineEditor = pEngineEditor;
+            pEngineEditTask = pEngineEditor as IEngineEditTask;
+            pEngineEditLayers=pEngineEditor as IEngineEditLayers;
+
+
         }
         #region MainPage的事件
 
@@ -351,6 +366,7 @@ namespace Arcgis.View
             pCurrentLyr = layer as IFeatureLayer;
             IDataset pDataset = pCurrentLyr.FeatureClass as IDataset;
             IWorkspace pws = pDataset.Workspace;
+            pEngineEditLayers.SetTargetLayer(pCurrentLyr, 0);
             MessageBox.Show("ok");
             
         }
@@ -369,6 +385,14 @@ namespace Arcgis.View
             m_StopEditCmd.OnClick();
             axMapControl1.CurrentTool = null;
             axMapControl1.MousePointer = esriControlsMousePointer.esriPointerDefault;
+            //按钮处于不可用状态 清空图层选择
+            selectLayer.Items.Clear();
+            selectLayer.Text = "";
+            saveEdit.Enabled = false;
+            endEdit.Enabled = false;
+            selectLayer.Enabled = false;
+            addLayer.Enabled = false;
+
         }
         /// <summary>
         /// 添加要素
@@ -377,6 +401,11 @@ namespace Arcgis.View
         /// <param name="e"></param>
         private void addLayer_Click(object sender, EventArgs e)
         {
+            ICommand createFeatureTool = new CreatFeatureToolClass();
+            createFeatureTool.OnCreate(this.axMapControl1.Object);
+            createFeatureTool.OnClick();
+            this.axMapControl1.CurrentTool = createFeatureTool as ITool;
+            this.axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
 
         }
 
