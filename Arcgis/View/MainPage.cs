@@ -23,7 +23,7 @@ using ESRI.ArcGIS.DataSourcesRaster;//RasterWorkspaceFactoryClass
 using ESRI.ArcGIS.DataSourcesGDB;//RasterWorkspaceFactoryClass
 using ESRI.ArcGIS.Geodatabase;
 using Arcgis.IDName;
-using Arcgis.Tools;
+using ESRI.ArcGIS.Output;
 namespace Arcgis.View
 {
     public partial class MainPage : Form
@@ -45,7 +45,7 @@ namespace Arcgis.View
         public IEngineEditTask pEngineEditTask = null;
         public IEngineEditLayers pEngineEditLayers = null;
         public IMap pMap = null;
-        //---
+        //mvp设计模式，减少main.cs的代码
         public MainPagePresenters Presenter
         {
             get { return presenter; }
@@ -56,6 +56,12 @@ namespace Arcgis.View
         object other = new object();//UNK图例组
         object index = new object();//图例的索引号
 
+        public IMapControlDefault m_mapControl = null;
+        public IPageLayoutControlDefault m_pageLayoutControl = null;
+        public ControlsSynchronizer m_controlsSynchronizer = null;
+        public ITOCControlDefault m_tocControl = null;
+        //总览视图
+        private FormOverview m_FormOverview = null;
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -63,6 +69,17 @@ namespace Arcgis.View
         {
             this.Presenter= new MainPagePresenters(this);
             InitializeComponent();
+            try
+            {
+                //初始化IMapControlDefault与IPageLayoutControlDefault接口变量
+                m_mapControl = axMapControl1.Object as IMapControlDefault;
+                m_pageLayoutControl = axPageLayoutControl1.Object as IPageLayoutControlDefault;
+                m_tocControl = axTOCControl1.Object as ITOCControlDefault;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         /// <summary>
         /// Load
@@ -71,9 +88,17 @@ namespace Arcgis.View
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            m_controlsSynchronizer = new ControlsSynchronizer(m_mapControl, m_pageLayoutControl);
+            //把 MapControl 和 PageLayoutControl 绑定起来(两个都指向同一个 Map),然后设置 MapControl 为活动的 Control
+            m_controlsSynchronizer.BindControls(true);
+            //为了在切换 MapControl 和 PageLayoutControl 视图同步，要添加 Framework Control
+            m_controlsSynchronizer.AddFrameworkControl(axToolbarControl1.Object);
+            m_controlsSynchronizer.AddFrameworkControl(axTOCControl1.Object);
+
             IMenuDef menu = new Symbology.SymbologyMenu();
             axToolbarControl1.AddItem(menu,-1,-1,false,-1,esriCommandStyles.esriCommandStyleIconAndText);
             axTOCControl1.SetBuddyControl(axMapControl1);
+            
             axToolbarControl1.SetBuddyControl(axMapControl1);
             //定制菜单
             chkCustomize.Checked = false;
@@ -88,13 +113,12 @@ namespace Arcgis.View
             endEdit.Enabled = false;
             selectLayer.Enabled = false;
             addLayer.Enabled = false;
-            //
+            //编辑
             pEngineEditor = new EngineEditorClass(); 
             MapManager.EngineEditor = pEngineEditor;
             pEngineEditTask = pEngineEditor as IEngineEditTask;
             pEngineEditLayers=pEngineEditor as IEngineEditLayers;
-
-
+           
         }
         #region MainPage的事件
 
@@ -128,7 +152,6 @@ namespace Arcgis.View
         /// <param name="e"></param>
         public void axMapControl1_OnMapReplaced(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMapReplacedEvent e)
         {
-
             this.Presenter.copyToPageLayout();//地图控件和布局控件数据共享
             this.Presenter.fillEagleEye();//填充鹰眼视图
 
@@ -140,14 +163,29 @@ namespace Arcgis.View
         /// <param name="e"></param>
         public void axMapControl1_OnAfterScreenDraw(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnAfterScreenDrawEvent e)
         {
-            IActiveView activeView = (IActiveView)axPageLayoutControl1.ActiveView.FocusMap;//获得pagelayout的当前视图
-            IDisplayTransformation displayTransformation = activeView.ScreenDisplay.DisplayTransformation;//获得显示转换对象
-            //根据MapControl的视图范围,确定PageLayoutControl的视图范围
-            displayTransformation.VisibleBounds = axMapControl1.Extent;
-            axPageLayoutControl1.ActiveView.Refresh();
-            this.Presenter.copyToPageLayout();
+            if (axMapControl1.LayerCount != 0) //mapcontrol不为空，和pagelayout共享数据和视图范围
+            {
+                IActiveView activeView = (IActiveView)axPageLayoutControl1.ActiveView.FocusMap;//获得pagelayout的当前视图
+                IDisplayTransformation displayTransformation = activeView.ScreenDisplay.DisplayTransformation;//获得显示转换对象
+                //根据MapControl的视图范围,确定PageLayoutControl的视图范围
+                displayTransformation.VisibleBounds = axMapControl1.Extent;
+                axPageLayoutControl1.ActiveView.Refresh();
+                this.Presenter.copyToPageLayout();
+            }         
+            
         }
-
+        /// <summary>
+        /// pageLayout改变事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void axPageLayoutControl1_OnPageLayoutReplaced(object sender, IPageLayoutControlEvents_OnPageLayoutReplacedEvent e)
+        {            
+            if (axMapControl1.LayerCount == 0)
+            {
+                this.presenter.copyToMapControl();
+            }
+        }
         /// <summary>
         /// 主窗体视图范围变化
         /// </summary>
@@ -180,6 +218,12 @@ namespace Arcgis.View
             //刷新视图
             IActiveView pActiveView = pGraphicsContainer as IActiveView;
             pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+          
+            //刷新总览窗体的mapcontrol
+            if (m_FormOverview != null && !m_FormOverview.IsDisposed)
+            {
+                m_FormOverview.UpdateMapControlGraphics(pFillShapeEle as IElement);
+            }
         }
 
         #region 鹰眼视图上鼠标的事件
@@ -367,17 +411,24 @@ namespace Arcgis.View
             IDataset pDataset = pCurrentLyr.FeatureClass as IDataset;
             IWorkspace pws = pDataset.Workspace;
             pEngineEditLayers.SetTargetLayer(pCurrentLyr, 0);
-            MessageBox.Show("ok");
             
         }
-
+        /// <summary>
+        /// 保存编辑
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveEdit_Click(object sender, EventArgs e)
         {
             ICommand m_SavaEditCmd = new SaveEditCmd();
             m_SavaEditCmd.OnCreate(axMapControl1.Object);
             m_SavaEditCmd.OnClick();
         }
-
+        /// <summary>
+        /// 结束编辑
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void endEdit_Click(object sender, EventArgs e)
         {
             ICommand m_StopEditCmd = new StopEditCmd();
@@ -401,13 +452,314 @@ namespace Arcgis.View
         /// <param name="e"></param>
         private void addLayer_Click(object sender, EventArgs e)
         {
-            ICommand createFeatureTool = new CreatFeatureToolClass();
-            createFeatureTool.OnCreate(this.axMapControl1.Object);
-            createFeatureTool.OnClick();
-            this.axMapControl1.CurrentTool = createFeatureTool as ITool;
-            this.axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
+            try
+            {
+                ICommand createFeatureTool = new CreatFeatureToolClass();
+                createFeatureTool.OnCreate(this.axMapControl1.Object);
+                createFeatureTool.OnClick();
+                this.axMapControl1.CurrentTool = createFeatureTool as ITool;
+                this.axMapControl1.MousePointer = esriControlsMousePointer.esriPointerCrosshair;
+            }
+            catch (Exception) { throw; }
 
         }
 
+        #region 符号系统
+        /// <summary>
+        /// 唯一值符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UniqueValueRenderer_Click(object sender, EventArgs e)
+        {
+            ICommand command = new UniqueValuesSymbolCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 分类符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClassBreaksRendererSymbol_Click(object sender, EventArgs e)
+        {
+            ICommand command = new ClassBreaksRendererSymbolCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 分类符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClassBreaksRendererColor_Click(object sender, EventArgs e)
+        {
+            ICommand command = new GraduatedColorSymbolsCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 单一符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SingleSymbol_Click(object sender, EventArgs e)
+        {
+            ICommand command = new SingleSymbolCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 通用符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SymbolizationByLayerPropPage_Click(object sender, EventArgs e)
+        {
+            ICommand command = new SymbolizationByLayerPropPageCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 分级符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GraduatedSymbols_Click(object sender, EventArgs e)
+        {
+            ICommand command = new GraduatedSymbolsCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 分级色彩符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GraduatedColorSymbols_Click(object sender, EventArgs e)
+        {
+            ICommand command = new GraduatedColorSymbolsCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 依比例符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ProportionalSymbols_Click(object sender, EventArgs e)
+        {
+            ICommand command = new ProportionalSymbolsCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 点值符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DotDensitySymbols_Click(object sender, EventArgs e)
+        {
+            ICommand command = new DotDensitySymbolsCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 统计符号化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StatisticsSymbols_Click(object sender, EventArgs e)
+        {
+            ICommand command = new StatisticsSymbolsCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        #endregion
+        /// <summary>
+        /// 属性查询
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AttributeQuery_Click(object sender, EventArgs e)
+        {
+            ICommand command = new AttributeQueryCmd();
+            command.OnCreate(axMapControl1.Object);
+            command.OnClick();
+        }
+        /// <summary>
+        /// 导出地图
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportMap_Click(object sender, EventArgs e)
+        {
+            IActiveView activeView = axPageLayoutControl1.ActiveView;
+
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Title = "导出地图";
+            saveFileDialog1.Filter = "(*.jpg)|*.jpg|(*.tiff)|*.tiff|(*.bmp)|*.bmp|(*.emf)|*.emf|(*.png)|*.png|(*.gif)|*.gif";//设置过滤属性
+            saveFileDialog1.FileName = axMapControl1.DocumentFilename;//给定一个初始保存路为原路径
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;//未选择文件return
+            string filePath = saveFileDialog1.FileName;//获取到文件路径
+            if (filePath == "") return;
+            this.presenter.ExportMapExtent(activeView,filePath);//导出地图
+        }
+        #region 绘图
+        private void CreatePoint_Click(object sender, EventArgs e)
+        {
+            ICommand cmd = new CreatePointTool();
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = cmd as ITool;
+        }
+
+        private void CreatePolyline_Click(object sender, EventArgs e)
+        {
+            ICommand cmd = new CreatePolylineTool();
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = cmd as ITool;
+        }
+
+        private void CreatePolygon_Click(object sender, EventArgs e)
+        {
+            ICommand cmd = new CreatePolygonTool();
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = cmd as ITool;
+        }
+
+        private void CreateCircle_Click(object sender, EventArgs e)
+        {
+            ICommand cmd = new CreateCircleTool();
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = cmd as ITool;
+        }
+
+        private void CreateRectangle_Click(object sender, EventArgs e)
+        {
+            ICommand cmd = new CreateRectangleTool();
+            cmd.OnCreate(axMapControl1.Object);
+            axMapControl1.CurrentTool = cmd as ITool;
+        }
+        #endregion
+        /// <summary>
+        /// 新建
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewMapDocument_Click(object sender, EventArgs e)
+        {
+            //非空白文档询问是否保存地图
+            if (!String.IsNullOrEmpty(m_mapControl.DocumentFilename))
+            {
+                //询问是否保存当前地图
+                DialogResult result = MessageBox.Show("是否保存当前地图?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    //保存地图
+                    this.presenter.menuItemSave_Click(null, null);
+                }
+            }
+            //创建新的地图实例
+            IMap map = new MapClass();
+            map.Name = "Map";
+            m_controlsSynchronizer.MapControl.DocumentFilename = string.Empty;
+            //更新新建地图实例的共享地图文档
+            m_controlsSynchronizer.ReplaceMap(map);
+        }
+        /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Save_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //空白文档不保存
+                if (String.IsNullOrEmpty(m_mapControl.DocumentFilename)) return;
+
+                //创建地图文档，调用open方法，调用ReplaceContents方法
+                IMapDocument mapDocument = new MapDocumentClass();
+                mapDocument.Open(m_mapControl.DocumentFilename);
+                mapDocument.ReplaceContents(m_mapControl as IMxdContents);
+
+                IObjectCopy objCopy = new ObjectCopyClass(); //使用Copy，避免共享引用  
+                m_mapControl.Map = (IMap)objCopy.Copy(mapDocument.get_Map(0));
+                objCopy = null;
+
+                mapDocument.Save(mapDocument.UsesRelativePaths, false);
+                mapDocument.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("请联系管理员，错误原因是：" + ex.Message);
+            }
+        }
+        /// <summary>
+        /// 退出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            //空白文档不保存
+            if (String.IsNullOrEmpty(m_mapControl.DocumentFilename)) return;
+
+            //询问是否保存当前地图
+            DialogResult result = MessageBox.Show("是否保存当前地图?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                //保存地图
+                this.presenter.menuItemSave_Click(null, null);
+            }
+            Application.Exit();
+        }
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //用户关闭窗体，触发退出菜单click事件
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                //空白文档不保存
+                if (String.IsNullOrEmpty(m_mapControl.DocumentFilename)) return;
+                Exit_Click(null, null);
+            }
+        }
+
+        private void EagleEye_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (m_FormOverview == null || m_FormOverview.IsDisposed)
+                {
+                    m_FormOverview = new FormOverview(axMapControl1);
+                }
+                m_FormOverview.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void MainPage_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                //隐藏总览窗体
+                if (m_FormOverview != null && !m_FormOverview.IsDisposed)
+                {
+                    m_FormOverview.Hide();
+                }
+            }
+            else
+            {
+                m_FormOverview.Show();
+            }
+        }
     }
 }

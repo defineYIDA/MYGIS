@@ -15,7 +15,9 @@ using Arcgis.View;
 using System.Windows.Forms;
 using ESRI.ArcGIS.DataSourcesFile;//ShapefileWorkspaceFactory CoClass的程序集
 using ESRI.ArcGIS.DataSourcesRaster;//RasterWorkspaceFactoryClass
-using ESRI.ArcGIS.DataSourcesGDB;//RasterWorkspaceFactoryClass
+using ESRI.ArcGIS.DataSourcesGDB;
+using System.Drawing;//RasterWorkspaceFactoryClass
+using ESRI.ArcGIS.Output;
 
 namespace Arcgis.Presenters
 { 
@@ -45,13 +47,23 @@ namespace Arcgis.Presenters
         /// </summary>
         public void copyToPageLayout()
         {
-            //IObjectCopy接口提供Copy方法用于地图的复制
-            IObjectCopy objectCopy = new ObjectCopyClass();
-            object copyFromMap = view.axMapControl1.Map;//要copy的map
-            object copyMap = objectCopy.Copy(copyFromMap);
-            object copyToMap = view.axPageLayoutControl1.ActiveView.FocusMap;
-            //Overwrite方法用于地图写入PageLayoutControl控件的视图中
-            objectCopy.Overwrite(copyMap, ref copyToMap);//引用传递焦点视图
+            ////IObjectCopy接口提供Copy方法用于地图的复制
+            //IObjectCopy objectCopy = new ObjectCopyClass();
+            //object copyFromMap = view.axMapControl1.Map;//要copy的map
+            //object copyMap = objectCopy.Copy(copyFromMap);
+            //object copyToMap = view.axPageLayoutControl1.ActiveView.FocusMap;
+            ////Overwrite方法用于地图写入PageLayoutControl控件的视图中
+            //objectCopy.Overwrite(copyMap, ref copyToMap);//引用传递焦点视图
+        }
+        public void copyToMapControl() 
+        {
+            //IObjectCopy objectCopy = new ObjectCopyClass();
+            //object copyFromMap = view.axPageLayoutControl1.ActiveView.FocusMap;//要copy的map
+            //object copyMap = objectCopy.Copy(copyFromMap);
+            //object copyToMap = view.axMapControl1.ActiveView.FocusMap;
+            ////Overwrite方法用于地图写入PageLayoutControl控件的视图中
+            //objectCopy.Overwrite(copyMap, ref copyToMap);//引用传递焦点视图
+            //this.fillEagleEye();
         }
         /// <summary>
         /// 根据主视图填充鹰眼视图
@@ -223,8 +235,8 @@ namespace Arcgis.Presenters
             IWorkspace ws = wsf.OpenFromFile(fileName,0);
             if(ws!=null)
             {
-                MessageBox.Show("个人数据库"+pFileName+"打开成功！");
                 addDataSetMap(ws);
+                MessageBox.Show("个人数据库"+pFileName+"打开成功！");                
             }
             else{
                 MessageBox.Show("个人数据库"+pFileName+"打开失败！");
@@ -246,13 +258,48 @@ namespace Arcgis.Presenters
                 IFeatureClass pFeatureClass = pDataset as IFeatureClass;
                 IFeatureLayer pLayer=new FeatureLayerClass();
                 pLayer.FeatureClass=pFeatureClass;
-                pLayer.Name=pDataset.Name;
-                MessageBox.Show("添加要素类"+pDataset.Name+"！");
+                pLayer.Name=pDataset.Name;               
                 this.view.axMapControl1.AddLayer(pLayer);
                 pDataset=pEnumDataset.Next();
 
             }
         }
+        /// <summary>
+        /// 保存地图
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void menuItemSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //空白文档不保存
+                if (String.IsNullOrEmpty(this.view.m_mapControl.DocumentFilename)) return;
+
+                //创建地图文档，调用open方法，调用ReplaceContents方法
+                IMapDocument mapDocument = new MapDocumentClass();
+                mapDocument.Open(this.view.m_mapControl.DocumentFilename);
+                mapDocument.ReplaceContents(this.view.m_mapControl as IMxdContents);
+
+                IObjectCopy objCopy = new ObjectCopyClass(); //使用Copy，避免共享引用  
+                this.view.m_mapControl.Map = (IMap)objCopy.Copy(mapDocument.get_Map(0));
+                objCopy = null;
+
+                mapDocument.Save(mapDocument.UsesRelativePaths, false);
+                mapDocument.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("请联系管理员，错误原因是：" + ex.Message);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="featureClassName"></param>
+        /// <param name="classExtensionUID"></param>
+        /// <param name="featureWorkspace"></param>
+        /// <returns></returns>
         public IFeatureClass CreateFeatureClassToAccessDB(string featureClassName,UID classExtensionUID,IFeatureWorkspace featureWorkspace)
         {
             //创建字段集合
@@ -357,7 +404,7 @@ namespace Arcgis.Presenters
             this.view.pEngineEditor.CurrentTask = this.view.pEngineEditTask;
             this.view.pEngineEditor.EnableUndoRedo(true);
             this.view.pEngineEditor.StartEditing(pws, this.view.pMap);
-            MessageBox.Show("Ok");
+            MessageBox.Show("已开始编辑！");
 
         }
         public ILayer SelectedIndexChanged(string lyrName)
@@ -373,5 +420,96 @@ namespace Arcgis.Presenters
             }
             return null;
         }
+        /// <summary>
+        /// 输出当前地图至指定的文件
+        /// </summary>
+        /// <param name="pView"></param>
+        /// <param name="outPath"></param>
+    
+        public void ExportMapExtent(IActiveView pView, string outPath)
+        {           
+            try
+            {
+        //参数检查
+        if(pView == null)
+        {
+            throw new Exception("输入参数错误,无法生成图片文件!");
+        }  
+        //根据给定的文件扩展名，来决定生成不同类型的对象
+        IExport export = null;
+        if (outPath.EndsWith(".jpg"))
+        {
+            export = new ExportJPEGClass();
+        }
+        else if (outPath.EndsWith(".tiff"))
+        {
+            export = new ExportTIFFClass();
+        }
+        else if (outPath.EndsWith(".bmp"))
+        {
+            export = new ExportBMPClass();
+        }
+        else if (outPath.EndsWith(".emf"))
+        {
+            export = new ExportEMFClass();
+        }
+        else if (outPath.EndsWith(".png"))
+        {
+            export = new ExportPNGClass();
+        }
+        else if (outPath.EndsWith(".gif"))
+        {
+            export = new ExportGIFClass();
+        }
+
+        export.ExportFileName = outPath;
+        IEnvelope pEnvelope = pView.Extent;
+
+        //导出参数           
+        export.Resolution = 300;
+        tagRECT exportRect = new tagRECT();
+        exportRect.left = 0;
+        exportRect.top = 0;
+        MessageBox.Show(pEnvelope.Height.ToString());
+        MessageBox.Show(pEnvelope.Width.ToString());
+        exportRect.right = 700;
+        exportRect.bottom =1000;
+        IEnvelope envelope = new EnvelopeClass();
+        //输出范围
+        envelope.PutCoords(exportRect.left, exportRect.bottom, exportRect.right, exportRect.top);
+        export.PixelBounds = envelope;
+        //可用于取消操作
+        ITrackCancel pCancel = new CancelTrackerClass();
+        export.TrackCancel = pCancel;
+        pCancel.Reset();
+        //点击ESC键时，中止转出
+        pCancel.CancelOnKeyPress = true;
+        pCancel.CancelOnClick = false;
+        pCancel.ProcessMessages = true;
+        //获取handle
+        int hDC = export.StartExporting();
+        //开始转出
+        pView.Output(hDC, (int)export.Resolution, ref exportRect, pEnvelope, pCancel);
+        bool bContinue = pCancel.Continue();
+        //捕获是否继续
+        if (bContinue)
+        {                              
+            export.FinishExporting();
+            export.Cleanup();
+            MessageBox.Show("导出至" + outPath);
+        }
+        else
+        {                  
+            export.Cleanup();
+        }
+        bContinue = pCancel.Continue();               
+    }
+    catch (Exception excep)
+    {
+        MessageBox.Show("导出失败"+excep.Message);//错误信息提示
+    }
+
+}
+
     }
 }

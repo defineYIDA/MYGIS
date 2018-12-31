@@ -4,25 +4,17 @@ using System.Runtime.InteropServices;
 using ESRI.ArcGIS.ADF.BaseClasses;
 using ESRI.ArcGIS.ADF.CATIDs;
 using ESRI.ArcGIS.Controls;
-using ESRI.ArcGIS.Carto;
-using ESRI.ArcGIS.SystemUI;
-using ESRI.ArcGIS.Controls;
-using ESRI.ArcGIS.Geodatabase;
-using ESRI.ArcGIS.Display;
-using ESRI.ArcGIS.Geodatabase;
-using System.Windows.Forms;
-using Arcgis.IDName;
-
+using Arcgis.View;
 
 namespace Arcgis.Commands
 {
     /// <summary>
-    /// Command that works in ArcGlobe or GlobeControl
+    /// Command that works in ArcMap/Map/PageLayout
     /// </summary>
-    [Guid("feeaecbd-4f44-4106-9f78-9b8c1c231ecc")]
+    [Guid("ae485cc9-ff2f-4b2f-9a84-2e68be4a1f8d")]
     [ClassInterface(ClassInterfaceType.None)]
-    [ProgId("Arcgis.Commands.StopEditCmd")]
-    public sealed class StopEditCmd : BaseCommand
+    [ProgId("Visualization.空间数据符号化.SingleSymbolCmd")]
+    public sealed class SingleSymbolCmd : BaseCommand
     {
         #region COM Registration Function(s)
         [ComRegisterFunction()]
@@ -57,7 +49,7 @@ namespace Arcgis.Commands
         private static void ArcGISCategoryRegistration(Type registerType)
         {
             string regKey = string.Format("HKEY_CLASSES_ROOT\\CLSID\\{{{0}}}", registerType.GUID);
-            GMxCommands.Register(regKey);
+            MxCommands.Register(regKey);
             ControlsCommands.Register(regKey);
         }
         /// <summary>
@@ -67,7 +59,7 @@ namespace Arcgis.Commands
         private static void ArcGISCategoryUnregistration(Type registerType)
         {
             string regKey = string.Format("HKEY_CLASSES_ROOT\\CLSID\\{{{0}}}", registerType.GUID);
-            GMxCommands.Unregister(regKey);
+            MxCommands.Unregister(regKey);
             ControlsCommands.Unregister(regKey);
         }
 
@@ -75,27 +67,16 @@ namespace Arcgis.Commands
         #endregion
 
         private IHookHelper m_hookHelper = null;
-        private IMap m_Map = null;
-        private bool bEnable = true;
-        private IActiveView m_activeView = null;
-        private IEngineEditor m_EngineEditor = null;
-
-        public StopEditCmd()
+        public SingleSymbolCmd()
         {
-            //
-            // TODO: Define values for the public properties
-            //
-            base.m_category = "编辑按钮"; //localizable text
-            base.m_caption = "停止编辑";  //localizable text
-            base.m_message = "停止编辑";  //localizable text 
-            base.m_toolTip = "";  //localizable text
-            base.m_name = "StopEditCmd";   //unique id, non-localizable (e.g. "MyCategory_MyCommand")
+            base.m_category = "Visualization"; 
+            base.m_caption = "单一符号化";   
+            base.m_message = "单一符号化";  
+            base.m_toolTip = "单一符号化";  
+            base.m_name = "";   
 
             try
             {
-                //
-                // TODO: change bitmap name if necessary
-                //
                 string bitmapResourceName = GetType().Name + ".bmp";
                 base.m_bitmap = new Bitmap(GetType(), bitmapResourceName);
             }
@@ -121,9 +102,7 @@ namespace Arcgis.Commands
                 m_hookHelper = new HookHelperClass();
                 m_hookHelper.Hook = hook;
                 if (m_hookHelper.ActiveView == null)
-                {
                     m_hookHelper = null;
-                }
             }
             catch
             {
@@ -143,31 +122,12 @@ namespace Arcgis.Commands
         /// </summary>
         public override void OnClick()
         {
-           m_Map = m_hookHelper.FocusMap;
-           m_activeView = m_Map as IActiveView;
-           m_EngineEditor = MapManager.EngineEditor;
-           Boolean bSave = true;
-           if (m_EngineEditor == null) return;
-           if (m_EngineEditor.EditState!= esriEngineEditState.esriEngineStateEditing) return;
-           IWorkspaceEdit pWsEdit2 = m_EngineEditor.EditWorkspace as IWorkspaceEdit;
-           if (pWsEdit2.IsBeingEdited())
-           {   
-               Boolean bHasEdit = m_EngineEditor.HasEdits();
-               if (bHasEdit)
-               {   
-                   if (MessageBox.Show("是否保存所做的编辑？", "提示", MessageBoxButtons.YesNo,
-    MessageBoxIcon.Information) == DialogResult.Yes)
-                   { 
-                       bSave = true;
-                   }
-                   else
-                   {
-                       bSave = false;
-                   }
-               }
-               m_EngineEditor.StopEditing(bSave);
-           }
-            m_Map.ClearSelection();   m_activeView.Refresh();
+           if (m_hookHelper == null) return;
+            if (m_hookHelper.FocusMap.LayerCount > 0)
+            {
+                SingleSymbol singleSymbol = new SingleSymbol(m_hookHelper);
+                singleSymbol.Show(m_hookHelper as System.Windows.Forms.IWin32Window);
+            }
         }
 
         #endregion
