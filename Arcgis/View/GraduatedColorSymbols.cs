@@ -119,7 +119,11 @@ namespace Arcgis.View
             pGeoFeatureL.Renderer = (IFeatureRenderer)m_classBreaksRenderer;
             m_activeView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, m_activeView.Extent);
         }
-
+        /// <summary>
+        /// 分级色彩
+        /// </summary>
+        /// <param name="featureClass"></param>
+        /// <returns></returns>
         private IClassBreaksRenderer CreateClassBreaksRenderer(IFeatureClass featureClass)
         {
             if (colorRamp == null)

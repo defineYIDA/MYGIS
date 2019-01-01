@@ -24,6 +24,7 @@ using ESRI.ArcGIS.DataSourcesGDB;//RasterWorkspaceFactoryClass
 using ESRI.ArcGIS.Geodatabase;
 using Arcgis.IDName;
 using ESRI.ArcGIS.Output;
+using YCMap.Utils;
 namespace Arcgis.View
 {
     public partial class MainPage : Form
@@ -95,6 +96,8 @@ namespace Arcgis.View
             m_controlsSynchronizer.AddFrameworkControl(axToolbarControl1.Object);
             m_controlsSynchronizer.AddFrameworkControl(axTOCControl1.Object);
 
+            
+
             IMenuDef menu = new Symbology.SymbologyMenu();
             axToolbarControl1.AddItem(menu,-1,-1,false,-1,esriCommandStyles.esriCommandStyleIconAndText);
             axTOCControl1.SetBuddyControl(axMapControl1);
@@ -141,7 +144,9 @@ namespace Arcgis.View
         public void openMapDoc_Click(object sender, EventArgs e)
         {
             File file = new File();
-            file.loadMapDoc(axMapControl1);
+            OpenNewMapDocument openDoc=new OpenNewMapDocument(m_controlsSynchronizer);
+            openDoc.OnClick();
+            //file.loadMapDoc(axMapControl1);
         }
         #endregion
 
@@ -152,9 +157,8 @@ namespace Arcgis.View
         /// <param name="e"></param>
         public void axMapControl1_OnMapReplaced(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMapReplacedEvent e)
         {
-            this.Presenter.copyToPageLayout();//地图控件和布局控件数据共享
-            this.Presenter.fillEagleEye();//填充鹰眼视图
-
+            //this.Presenter.copyToPageLayout();//地图控件和布局控件数据共享
+            //this.Presenter.fillEagleEye();//填充鹰眼视图
         }
         /// <summary>
         /// map绘制完成后发生
@@ -163,15 +167,15 @@ namespace Arcgis.View
         /// <param name="e"></param>
         public void axMapControl1_OnAfterScreenDraw(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnAfterScreenDrawEvent e)
         {
-            if (axMapControl1.LayerCount != 0) //mapcontrol不为空，和pagelayout共享数据和视图范围
-            {
-                IActiveView activeView = (IActiveView)axPageLayoutControl1.ActiveView.FocusMap;//获得pagelayout的当前视图
-                IDisplayTransformation displayTransformation = activeView.ScreenDisplay.DisplayTransformation;//获得显示转换对象
-                //根据MapControl的视图范围,确定PageLayoutControl的视图范围
-                displayTransformation.VisibleBounds = axMapControl1.Extent;
-                axPageLayoutControl1.ActiveView.Refresh();
-                this.Presenter.copyToPageLayout();
-            }         
+            //if (axMapControl1.LayerCount != 0) //mapcontrol不为空，和pagelayout共享数据和视图范围
+            //{
+            //    IActiveView activeView = (IActiveView)axPageLayoutControl1.ActiveView.FocusMap;//获得pagelayout的当前视图
+            //    IDisplayTransformation displayTransformation = activeView.ScreenDisplay.DisplayTransformation;//获得显示转换对象
+            //    //根据MapControl的视图范围,确定PageLayoutControl的视图范围
+            //    displayTransformation.VisibleBounds = axMapControl1.Extent;
+            //    axPageLayoutControl1.ActiveView.Refresh();
+            //    //this.Presenter.copyToPageLayout();
+            //}         
             
         }
         /// <summary>
@@ -183,7 +187,7 @@ namespace Arcgis.View
         {            
             if (axMapControl1.LayerCount == 0)
             {
-                this.presenter.copyToMapControl();
+                //this.presenter.copyToMapControl();
             }
         }
         /// <summary>
@@ -193,36 +197,38 @@ namespace Arcgis.View
         /// <param name="e"></param>
         public void axMapControl1_OnExtentUpdated(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnExtentUpdatedEvent e)
         {
-            //获得当前地图视图的外包矩形
-            IEnvelope pEnvelope = (IEnvelope)e.newEnvelope;
+            ////获得当前地图视图的外包矩形
+            //IEnvelope pEnvelope = (IEnvelope)e.newEnvelope;
 
-            //获得GraphicsContainer对象用来管理元素对象
-            IGraphicsContainer pGraphicsContainer = axMapControl2.Map as IGraphicsContainer;
+            ////获得GraphicsContainer对象用来管理元素对象
+            //IGraphicsContainer pGraphicsContainer = axMapControl2.Map as IGraphicsContainer;
 
-            //清除对象中的所有图形元素
-            pGraphicsContainer.DeleteAllElements();
+            ////清除对象中的所有图形元素
+            //pGraphicsContainer.DeleteAllElements();
 
-            //获得矩形图形元素
-            IRectangleElement pRectangleEle = new RectangleElementClass();
-            IElement pElement = pRectangleEle as IElement;
-            pElement.Geometry = pEnvelope;
+            ////获得矩形图形元素
+            //IRectangleElement pRectangleEle = new RectangleElementClass();
+            //IElement pElement = pRectangleEle as IElement;
+            //pElement.Geometry = pEnvelope;
 
 
-            //设置FillShapeElement对象的symbol
-            IFillShapeElement pFillShapeEle = pElement as IFillShapeElement;
-            pFillShapeEle.Symbol = this.Presenter.getFillSymbol();
+            ////设置FillShapeElement对象的symbol
+            //IFillShapeElement pFillShapeEle = pElement as IFillShapeElement;
+            //pFillShapeEle.Symbol = this.Presenter.getFillSymbol();
 
-            //进行填充
-            pGraphicsContainer.AddElement((IElement)pFillShapeEle, 0);
+            ////进行填充
+            //pGraphicsContainer.AddElement((IElement)pFillShapeEle, 0);
 
-            //刷新视图
-            IActiveView pActiveView = pGraphicsContainer as IActiveView;
-            pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
-          
+            ////刷新视图
+            //IActiveView pActiveView = pGraphicsContainer as IActiveView;
+            //pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+
+            //创建矩形元素
+            IFillShapeElement fillShapeElement = ElementsHelper.GetRectangleElement(e.newEnvelope as IGeometry);
             //刷新总览窗体的mapcontrol
             if (m_FormOverview != null && !m_FormOverview.IsDisposed)
             {
-                m_FormOverview.UpdateMapControlGraphics(pFillShapeEle as IElement);
+                m_FormOverview.UpdateMapControlGraphics(fillShapeElement as IElement);
             }
         }
 
@@ -232,26 +238,26 @@ namespace Arcgis.View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void axMapControl2_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
-        {
-            if (axMapControl2.Map.LayerCount > 0)
-            {
-                if (e.button == 1)//左键将所点击的位置，设置为主视图的中心
-                {
-                    IPoint pPoint = new PointClass();
-                    pPoint.PutCoords(e.mapX, e.mapY);//设置point对象的坐标
-                    axMapControl1.CenterAt(pPoint);
-                    axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
-                }
-                else if (e.button == 2)//右键拉框范围设置为主视图显示范围
-                {
-                    IEnvelope pEnv = axMapControl2.TrackRectangle();//获得拉框的范围
-                    axMapControl1.Extent = pEnv;
-                    axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
-                }
-            }
+        //public void axMapControl2_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
+        //{
+        //    if (axMapControl2.Map.LayerCount > 0)
+        //    {
+        //        if (e.button == 1)//左键将所点击的位置，设置为主视图的中心
+        //        {
+        //            IPoint pPoint = new PointClass();
+        //            pPoint.PutCoords(e.mapX, e.mapY);//设置point对象的坐标
+        //            axMapControl1.CenterAt(pPoint);
+        //            axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+        //        }
+        //        else if (e.button == 2)//右键拉框范围设置为主视图显示范围
+        //        {
+        //            IEnvelope pEnv = axMapControl2.TrackRectangle();//获得拉框的范围
+        //            axMapControl1.Extent = pEnv;
+        //            axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+        //        }
+        //    }
 
-        }
+        //}
         /// <summary>
         /// 鹰眼视图上鼠标移动事件
         /// </summary>
@@ -758,7 +764,24 @@ namespace Arcgis.View
             }
             else
             {
-                m_FormOverview.Show();
+                if (m_FormOverview != null) {
+                    m_FormOverview.Show();
+                }
+                
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 0) //map view
+            {
+                //activate the MapControl and deactivate the PageLayoutControl
+                m_controlsSynchronizer.ActivateMap();
+            }
+            else //layout view
+            {
+                //activate the PageLayoutControl and deactivate the MapControl
+                m_controlsSynchronizer.ActivatePageLayout();
             }
         }
     }

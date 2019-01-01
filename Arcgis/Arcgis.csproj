@@ -121,6 +121,7 @@
     <Compile Include="Commands\DotDensitySymbolsCmd.cs" />
     <Compile Include="Commands\GraduatedColorSymbolsCmd.cs" />
     <Compile Include="Commands\GraduatedSymbolsCmd.cs" />
+    <Compile Include="Commands\OpenNewMapDocument.cs" />
     <Compile Include="Commands\ProportionalSymbolsCmd.cs" />
     <Compile Include="Commands\SaveEditCmd.cs" />
     <Compile Include="Commands\SingleSymbolCmd.cs" />
@@ -128,14 +129,14 @@
     <Compile Include="Commands\StopEditCmd.cs" />
     <Compile Include="Commands\SymbolizationByLayerPropPageCmd.cs" />
     <Compile Include="Commands\UniqueValuesSymbolCmd.cs" />
-    <Compile Include="ControlsSynchronizer.cs" />
-    <Compile Include="IDName\MapManager.cs" />
-    <Compile Include="IDName\SupportZMFeature.cs" />
-    <Compile Include="Maps.cs" />
+    <Compile Include="Utils\ControlsSynchronizer.cs" />
+    <Compile Include="Utils\MapManager.cs" />
+    <Compile Include="Utils\SupportZMFeature.cs" />
+    <Compile Include="Utils\Maps.cs" />
     <Compile Include="Presenters\AttributeTablePresenter.cs" />
     <Compile Include="Presenters\IAttributeTable.cs" />
     <Compile Include="Presenters\MainPagePresenters.cs" />
-    <Compile Include="File.cs" />
+    <Compile Include="Utils\File.cs" />
     <Compile Include="Tools\AddDateTool.cs" />
     <Compile Include="Tools\CreateCircleTool.cs" />
     <Compile Include="Tools\CreatePointTool.cs" />

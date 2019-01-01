@@ -22,7 +22,7 @@ namespace Arcgis.View
         IActiveView m_activeView = null;
         IMap m_map = null;
 
-        IFeatureLayer layer2Symbolize = null;
+        IFeatureLayer layer2Symbolize = null; //选择的图层
         string strRendererField = string.Empty;
 
         IColorRamp colorRamp = null;
@@ -110,17 +110,16 @@ namespace Arcgis.View
 
         private void Renderer()
         {
-            IGeoFeatureLayer pGeoFeatureL = (IGeoFeatureLayer)layer2Symbolize;
+            IGeoFeatureLayer pGeoFeatureL = (IGeoFeatureLayer)layer2Symbolize; //选中的图层
             IFeatureClass featureClass = pGeoFeatureL.FeatureClass;
 
-            //找出rendererField在字段中的编号
-            int lfieldNumber = featureClass.FindField(strRendererField);
+            int lfieldNumber = featureClass.FindField(strRendererField);//找出rendererField在字段中的编号
             if (lfieldNumber == -1)
             {
                 MessageBox.Show("Can't find field called " + strRendererField);
                 return;
             }
-            IUniqueValueRenderer pUniqueValueR = CreateRenderer(featureClass);
+            IUniqueValueRenderer pUniqueValueR = CreateRenderer(featureClass); //符号化
             if (pUniqueValueR == null) return;
             pGeoFeatureL.Renderer = (IFeatureRenderer)pUniqueValueR;
             m_activeView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, m_activeView.Extent);
@@ -157,10 +156,14 @@ namespace Arcgis.View
             enumColors.Reset();
             return enumColors;
         }
-
+        /// <summary>
+        /// 唯一值符号化
+        /// </summary>
+        /// <param name="featureClass"></param>
+        /// <returns></returns>
         private IUniqueValueRenderer CreateRenderer(IFeatureClass featureClass)
         {
-            int uniqueValuesCount = GetUniqueValuesCount(featureClass, strRendererField);
+            int uniqueValuesCount = GetUniqueValuesCount(featureClass, strRendererField); 
             System.Collections.IEnumerator enumerator = GetUniqueValues(featureClass, strRendererField);
 
             if (uniqueValuesCount == 0) return null;
