@@ -34,8 +34,8 @@
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
+            this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
@@ -77,7 +77,9 @@
             this.StatisticsSymbols = new System.Windows.Forms.ToolStripMenuItem();
             this.查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AttributeQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.Export = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportMap = new System.Windows.Forms.ToolStripMenuItem();
+            this.printAndExport = new System.Windows.Forms.ToolStripMenuItem();
             this.绘图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreatePoint = new System.Windows.Forms.ToolStripMenuItem();
             this.CreatePolyline = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,8 +98,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
@@ -143,13 +145,22 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.axTOCControl1);
             this.splitContainer2.Panel1.Controls.Add(this.axLicenseControl1);
+            this.splitContainer2.Panel1.Controls.Add(this.axTOCControl1);
             this.splitContainer2.Panel1MinSize = 200;
             this.splitContainer2.Panel2MinSize = 0;
             this.splitContainer2.Size = new System.Drawing.Size(274, 587);
-            this.splitContainer2.SplitterDistance = 583;
+            this.splitContainer2.SplitterDistance = 558;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // axLicenseControl1
+            // 
+            this.axLicenseControl1.Enabled = true;
+            this.axLicenseControl1.Location = new System.Drawing.Point(129, 296);
+            this.axLicenseControl1.Name = "axLicenseControl1";
+            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
+            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
+            this.axLicenseControl1.TabIndex = 2;
             // 
             // axTOCControl1
             // 
@@ -157,20 +168,11 @@
             this.axTOCControl1.Location = new System.Drawing.Point(0, 0);
             this.axTOCControl1.Name = "axTOCControl1";
             this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
-            this.axTOCControl1.Size = new System.Drawing.Size(274, 583);
+            this.axTOCControl1.Size = new System.Drawing.Size(274, 558);
             this.axTOCControl1.TabIndex = 1;
             this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this.axTOCControl1_OnMouseDown);
             this.axTOCControl1.OnBeginLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnBeginLabelEditEventHandler(this.axTOCControl1_OnBeginLabelEdit);
             this.axTOCControl1.OnEndLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnEndLabelEditEventHandler(this.axTOCControl1_OnEndLabelEdit);
-            // 
-            // axLicenseControl1
-            // 
-            this.axLicenseControl1.Enabled = true;
-            this.axLicenseControl1.Location = new System.Drawing.Point(79, 106);
-            this.axLicenseControl1.Name = "axLicenseControl1";
-            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
-            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
-            this.axLicenseControl1.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -253,7 +255,7 @@
             this.编辑ToolStripMenuItem,
             this.符号系统ToolStripMenuItem,
             this.查询ToolStripMenuItem,
-            this.ExportMap,
+            this.Export,
             this.绘图ToolStripMenuItem,
             this.EagleEye});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -521,12 +523,28 @@
             this.AttributeQuery.Text = "属性条件查询";
             this.AttributeQuery.Click += new System.EventHandler(this.AttributeQuery_Click);
             // 
+            // Export
+            // 
+            this.Export.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ExportMap,
+            this.printAndExport});
+            this.Export.Name = "Export";
+            this.Export.Size = new System.Drawing.Size(68, 21);
+            this.Export.Text = "导出地图";
+            // 
             // ExportMap
             // 
             this.ExportMap.Name = "ExportMap";
-            this.ExportMap.Size = new System.Drawing.Size(68, 21);
+            this.ExportMap.Size = new System.Drawing.Size(152, 22);
             this.ExportMap.Text = "导出地图";
             this.ExportMap.Click += new System.EventHandler(this.ExportMap_Click);
+            // 
+            // printAndExport
+            // 
+            this.printAndExport.Name = "printAndExport";
+            this.printAndExport.Size = new System.Drawing.Size(152, 22);
+            this.printAndExport.Text = "打印地图";
+            this.printAndExport.Click += new System.EventHandler(this.printAndExport_Click);
             // 
             // 绘图ToolStripMenuItem
             // 
@@ -629,8 +647,8 @@
             this.splitContainer2.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
@@ -651,7 +669,6 @@
         public ESRI.ArcGIS.Controls.AxToolbarControl axToolbarControl1;
         public System.Windows.Forms.SplitContainer splitContainer1;
         public System.Windows.Forms.SplitContainer splitContainer2;
-        public ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
         public System.Windows.Forms.StatusStrip statusStrip1;
         public System.Windows.Forms.MenuStrip menuStrip1;
         public System.Windows.Forms.ToolStripMenuItem doc;
@@ -693,7 +710,7 @@
         private System.Windows.Forms.ToolStripMenuItem StatisticsSymbols;
         private System.Windows.Forms.ToolStripMenuItem 查询ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AttributeQuery;
-        private System.Windows.Forms.ToolStripMenuItem ExportMap;
+        private System.Windows.Forms.ToolStripMenuItem Export;
         private System.Windows.Forms.ToolStripMenuItem 绘图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CreatePoint;
         private System.Windows.Forms.ToolStripMenuItem CreatePolyline;
@@ -706,6 +723,9 @@
         private System.Windows.Forms.ToolStripMenuItem Save;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem Exit;
+        private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
+        private System.Windows.Forms.ToolStripMenuItem ExportMap;
+        private System.Windows.Forms.ToolStripMenuItem printAndExport;
     }
 }
 

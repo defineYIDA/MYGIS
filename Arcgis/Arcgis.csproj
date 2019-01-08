@@ -86,6 +86,9 @@
     <Reference Include="ESRI.ArcGIS.Output, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="ESRI.ArcGIS.OutputExtensions, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="ESRI.ArcGIS.System, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -96,10 +99,6 @@
     <Reference Include="ESRI.ArcGIS.Version, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86" />
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Symbology, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Symbology\Symbology\bin\Debug\Symbology.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -120,6 +119,7 @@
     <Compile Include="Commands\AttributeQueryCmd.cs" />
     <Compile Include="Commands\ClassBreaksRendererSymbolCmd.cs" />
     <Compile Include="Commands\ClearCurrentActiveToolCmd.cs" />
+    <Compile Include="Commands\DotDensityRender.cs" />
     <Compile Include="Commands\DotDensitySymbolsCmd.cs" />
     <Compile Include="Commands\GraduatedColorSymbolsCmd.cs" />
     <Compile Include="Commands\GraduatedSymbolsCmd.cs" />
@@ -202,6 +202,9 @@
     <Compile Include="View\AttributeTable.Designer.cs">
       <DependentUpon>AttributeTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\PrintAndExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="View\ProportionalSymbols.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,6 +282,9 @@
     </Compile>
     <EmbeddedResource Include="View\AttributeTable.resx">
       <DependentUpon>AttributeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PrintAndExport.resx">
+      <DependentUpon>PrintAndExport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProportionalSymbols.resx">
       <DependentUpon>ProportionalSymbols.cs</DependentUpon>

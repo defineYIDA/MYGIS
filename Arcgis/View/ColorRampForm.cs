@@ -28,6 +28,7 @@ namespace Arcgis.View
             string sInstall = ESRI.ArcGIS.RuntimeManager.ActiveRuntime.Path;            
             //Load the ESRI.ServerStyle file into the SymbologyControl
             try {
+                MessageBox.Show(System.IO.Directory.GetCurrentDirectory());
                 axSymbologyControl1.LoadStyleFile(@"../../styles/ESRI.ServerStyle");
                 //Set the style class
                 axSymbologyControl1.StyleClass = esriSymbologyStyleClass.esriStyleClassColorRamps;

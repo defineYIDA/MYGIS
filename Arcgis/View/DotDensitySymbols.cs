@@ -241,12 +241,10 @@ namespace Arcgis.View
 
             pColor = new RgbColorClass();
             pColor.RGB = 255;
-
+            
             try
             {
-                IColorPalette pPalette;
-                pPalette = new ColorPaletteClass();
-
+                IColorPalette pPalette = new ColorPaletteClass();    
                 tagRECT pRect = new tagRECT();
                 pRect.left = left;
                 pRect.top = top;

@@ -17,7 +17,7 @@ using ESRI.ArcGIS.Controls;
 using Arcgis.Presenters;
 using Arcgis.Commands;
 using Arcgis.Tools;
-using Symbology;
+//using Symbology;
 using ESRI.ArcGIS.DataSourcesFile;//ShapefileWorkspaceFactory CoClass的程序集
 using ESRI.ArcGIS.DataSourcesRaster;//RasterWorkspaceFactoryClass
 using ESRI.ArcGIS.DataSourcesGDB;//RasterWorkspaceFactoryClass
@@ -61,6 +61,10 @@ namespace Arcgis.View
         public IPageLayoutControlDefault m_pageLayoutControl = null;
         public ControlsSynchronizer m_controlsSynchronizer = null;
         public ITOCControlDefault m_tocControl = null;
+        /// <summary>
+        /// 当前地图的路径
+        /// </summary>
+        private string DocumentFileName = "";
         //总览视图
         private FormOverview m_FormOverview = null;
         /// <summary>
@@ -96,10 +100,8 @@ namespace Arcgis.View
             m_controlsSynchronizer.AddFrameworkControl(axToolbarControl1.Object);
             m_controlsSynchronizer.AddFrameworkControl(axTOCControl1.Object);
 
-            
 
-            IMenuDef menu = new Symbology.SymbologyMenu();
-            axToolbarControl1.AddItem(menu,-1,-1,false,-1,esriCommandStyles.esriCommandStyleIconAndText);
+            axToolbarControl1.AddItem(new DotDensitySymbolsCmd(), -1, -1, false, -1, esriCommandStyles.esriCommandStyleIconAndText);//点密度
             axTOCControl1.SetBuddyControl(axMapControl1);
             
             axToolbarControl1.SetBuddyControl(axMapControl1);
@@ -146,6 +148,7 @@ namespace Arcgis.View
             File file = new File();
             OpenNewMapDocument openDoc=new OpenNewMapDocument(m_controlsSynchronizer);
             openDoc.OnClick();
+            DocumentFileName = openDoc.DocumentFileName;
             //file.loadMapDoc(axMapControl1);
         }
         #endregion
@@ -593,24 +596,6 @@ namespace Arcgis.View
             command.OnCreate(axMapControl1.Object);
             command.OnClick();
         }
-        /// <summary>
-        /// 导出地图
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExportMap_Click(object sender, EventArgs e)
-        {
-            IActiveView activeView = axPageLayoutControl1.ActiveView;
-
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Title = "导出地图";
-            saveFileDialog1.Filter = "(*.jpg)|*.jpg|(*.tiff)|*.tiff|(*.bmp)|*.bmp|(*.emf)|*.emf|(*.png)|*.png|(*.gif)|*.gif";//设置过滤属性
-            saveFileDialog1.FileName = axMapControl1.DocumentFilename;//给定一个初始保存路为原路径
-            if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;//未选择文件return
-            string filePath = saveFileDialog1.FileName;//获取到文件路径
-            if (filePath == "") return;
-            this.presenter.ExportMapExtent(activeView,filePath);//导出地图
-        }
         #region 绘图
         private void CreatePoint_Click(object sender, EventArgs e)
         {
@@ -784,5 +769,38 @@ namespace Arcgis.View
                 m_controlsSynchronizer.ActivatePageLayout();
             }
         }
+        /// <summary>
+        /// 导出地图
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportMap_Click(object sender, EventArgs e)
+        {
+            IActiveView activeView = axPageLayoutControl1.ActiveView;
+
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Title = "导出地图";
+            saveFileDialog1.Filter = "(*.jpg)|*.jpg|(*.tiff)|*.tiff|(*.bmp)|*.bmp|(*.emf)|*.emf|(*.png)|*.png|(*.gif)|*.gif";//设置过滤属性
+            saveFileDialog1.FileName = axMapControl1.DocumentFilename;//给定一个初始保存路为原路径
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;//未选择文件return
+            string filePath = saveFileDialog1.FileName;//获取到文件路径
+            if (filePath == "") return;
+            this.presenter.ExportMapExtent(activeView, filePath);//导出地图
+        }
+        /// <summary>
+        /// 打印地图
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void printAndExport_Click(object sender, EventArgs e)
+        {
+            if (m_pageLayoutControl.ActiveView.FocusMap.LayerCount==0) {
+                MessageBox.Show("No Map !");
+                return;
+            }
+            PrintAndExport print = new PrintAndExport(DocumentFileName);
+            print.Show();
+        }
+
     }
 }

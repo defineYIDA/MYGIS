@@ -159,6 +159,9 @@ namespace Arcgis.Presenters
             for (int i = 0; i < fileNames.Length;i++ )
             {
                 ILayer layer = addShpData(fileNames[i]);
+                if (layer == null) {
+                    return;
+                }
                 this.view.axMapControl1.Map.AddLayer(layer);
             }
         }
@@ -169,17 +172,23 @@ namespace Arcgis.Presenters
         /// <returns></returns>
         private ILayer addShpData(string fileName)
         {
-            string workSpacePath = System.IO.Path.GetDirectoryName(fileName);
-            string shapeFileName = System.IO.Path.GetFileName(fileName);
-            IWorkspaceFactory wsf = new ShapefileWorkspaceFactoryClass();
-            IFeatureWorkspace fws = (IFeatureWorkspace)wsf.OpenFromFile(workSpacePath, 0);//打开工作空间
-            IFeatureClass pFeatureClass = fws.OpenFeatureClass(shapeFileName);
-            IDataset pDataset = pFeatureClass as IDataset;
-            IFeatureLayer pFeatureLayer = new FeatureLayerClass();
-            pFeatureLayer.FeatureClass = pFeatureClass;
-            pFeatureLayer.Name = pDataset.Name;
-            ILayer pLayer = pFeatureLayer as ILayer;
-            return pLayer;
+            try {
+                string workSpacePath = System.IO.Path.GetDirectoryName(fileName);
+                string shapeFileName = System.IO.Path.GetFileName(fileName);
+                IWorkspaceFactory wsf = new ShapefileWorkspaceFactoryClass();
+                IFeatureWorkspace fws = (IFeatureWorkspace)wsf.OpenFromFile(workSpacePath, 0);//打开工作空间
+                IFeatureClass pFeatureClass = fws.OpenFeatureClass(shapeFileName);
+                IDataset pDataset = pFeatureClass as IDataset;
+                IFeatureLayer pFeatureLayer = new FeatureLayerClass();
+                pFeatureLayer.FeatureClass = pFeatureClass;
+                pFeatureLayer.Name = pDataset.Name;
+                ILayer pLayer = pFeatureLayer as ILayer;
+                return pLayer;
+            }catch(Exception e){
+                MessageBox.Show("打开失败，原因" + e.Message);
+                return null;
+            }
+            
         }
         /// <summary>
         /// 添加栅格数据
