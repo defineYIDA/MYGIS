@@ -41,8 +41,14 @@
     <Reference Include="ESRI.ArcGIS.ADF.Local, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="ESRI.ArcGIS.ArcMapUI, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="ESRI.ArcGIS.AxControls, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="ESRI.ArcGIS.Carto, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.CartoUI, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Controls, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
@@ -60,6 +66,12 @@
     <Reference Include="ESRI.ArcGIS.Display, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="ESRI.ArcGIS.DisplayUI, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Framework, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -72,7 +84,10 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Output, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.OutputExtensions, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.System, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -85,9 +100,6 @@
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Symbology">
-      <HintPath>..\..\Symbology\Symbology\bin\Debug\Symbology.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -98,17 +110,84 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="YCMap.Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\YCMap.Utils\bin\Debug\YCMap.Utils.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AttributeQueryCmd.cs" />
+    <Compile Include="Commands\ClassBreaksRendererSymbolCmd.cs" />
     <Compile Include="Commands\ClearCurrentActiveToolCmd.cs" />
+    <Compile Include="Commands\DotDensityRender.cs" />
+    <Compile Include="Commands\DotDensitySymbolsCmd.cs" />
+    <Compile Include="Commands\GraduatedColorSymbolsCmd.cs" />
+    <Compile Include="Commands\GraduatedSymbolsCmd.cs" />
+    <Compile Include="Commands\OpenNewMapDocument.cs" />
+    <Compile Include="Commands\ProportionalSymbolsCmd.cs" />
     <Compile Include="Commands\SaveEditCmd.cs" />
+    <Compile Include="Commands\SingleSymbolCmd.cs" />
+    <Compile Include="Commands\StatisticsSymbolsCmd.cs" />
     <Compile Include="Commands\StopEditCmd.cs" />
+    <Compile Include="Commands\SymbolizationByLayerPropPageCmd.cs" />
+    <Compile Include="Commands\UniqueValuesSymbolCmd.cs" />
+    <Compile Include="Utils\ControlsSynchronizer.cs" />
+    <Compile Include="Utils\MapManager.cs" />
+    <Compile Include="Utils\SupportZMFeature.cs" />
+    <Compile Include="Utils\Maps.cs" />
     <Compile Include="Presenters\AttributeTablePresenter.cs" />
     <Compile Include="Presenters\IAttributeTable.cs" />
     <Compile Include="Presenters\MainPagePresenters.cs" />
-    <Compile Include="File.cs" />
+    <Compile Include="Utils\File.cs" />
     <Compile Include="Tools\AddDateTool.cs" />
+    <Compile Include="Tools\CreateCircleTool.cs" />
+    <Compile Include="Tools\CreatePointTool.cs" />
+    <Compile Include="Tools\CreatePolygonTool.cs" />
+    <Compile Include="Tools\CreatePolylineTool.cs" />
+    <Compile Include="Tools\CreateRectangleTool.cs" />
     <Compile Include="Tools\CreatFeatureToolClass.cs" />
+    <Compile Include="View\ClassBreaksRendererSymbol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ClassBreaksRendererSymbol.designer.cs">
+      <DependentUpon>ClassBreaksRendererSymbol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ColorRampForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ColorRampForm.designer.cs">
+      <DependentUpon>ColorRampForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\DotDensitySymbols.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DotDensitySymbols.designer.cs">
+      <DependentUpon>DotDensitySymbols.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormOverview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormOverview.designer.cs">
+      <DependentUpon>FormOverview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\GetSymbolByControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\GetSymbolByControl.designer.cs">
+      <DependentUpon>GetSymbolByControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\GraduatedColorSymbols.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\GraduatedColorSymbols.designer.cs">
+      <DependentUpon>GraduatedColorSymbols.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\GraduatedSymbols.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\GraduatedSymbols.designer.cs">
+      <DependentUpon>GraduatedSymbols.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\MainPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +202,72 @@
     <Compile Include="View\AttributeTable.Designer.cs">
       <DependentUpon>AttributeTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\PrintAndExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ProportionalSymbols.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ProportionalSymbols.designer.cs">
+      <DependentUpon>ProportionalSymbols.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectByAttribute.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SelectByAttribute.designer.cs">
+      <DependentUpon>SelectByAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectSymbolByControl .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SelectSymbolByControl .designer.cs">
+      <DependentUpon>SelectSymbolByControl .cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SingleSymbol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SingleSymbol.designer.cs">
+      <DependentUpon>SingleSymbol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatisticsSymbols.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\StatisticsSymbols.designer.cs">
+      <DependentUpon>StatisticsSymbols.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SymbolizationByLayerPropPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SymbolizationByLayerPropPage.designer.cs">
+      <DependentUpon>SymbolizationByLayerPropPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UniqueValuesSymbol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\UniqueValuesSymbol.designer.cs">
+      <DependentUpon>UniqueValuesSymbol.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="View\ClassBreaksRendererSymbol.resx">
+      <DependentUpon>ClassBreaksRendererSymbol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ColorRampForm.resx">
+      <DependentUpon>ColorRampForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DotDensitySymbols.resx">
+      <DependentUpon>DotDensitySymbols.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormOverview.resx">
+      <DependentUpon>FormOverview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\GetSymbolByControl.resx">
+      <DependentUpon>GetSymbolByControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\GraduatedColorSymbols.resx">
+      <DependentUpon>GraduatedColorSymbols.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\GraduatedSymbols.resx">
+      <DependentUpon>GraduatedSymbols.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\MainPage.resx">
       <DependentUpon>MainPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -137,6 +282,30 @@
     </Compile>
     <EmbeddedResource Include="View\AttributeTable.resx">
       <DependentUpon>AttributeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PrintAndExport.resx">
+      <DependentUpon>PrintAndExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ProportionalSymbols.resx">
+      <DependentUpon>ProportionalSymbols.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SelectByAttribute.resx">
+      <DependentUpon>SelectByAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SelectSymbolByControl .resx">
+      <DependentUpon>SelectSymbolByControl .cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SingleSymbol.resx">
+      <DependentUpon>SingleSymbol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\StatisticsSymbols.resx">
+      <DependentUpon>StatisticsSymbols.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SymbolizationByLayerPropPage.resx">
+      <DependentUpon>SymbolizationByLayerPropPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UniqueValuesSymbol.resx">
+      <DependentUpon>UniqueValuesSymbol.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

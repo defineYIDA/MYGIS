@@ -4,25 +4,19 @@ using System.Runtime.InteropServices;
 using ESRI.ArcGIS.ADF.BaseClasses;
 using ESRI.ArcGIS.ADF.CATIDs;
 using ESRI.ArcGIS.Controls;
-using ESRI.ArcGIS.Carto;
-using ESRI.ArcGIS.SystemUI;
-using ESRI.ArcGIS.Controls;
-using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Display;
-using ESRI.ArcGIS.Geodatabase;
-using System.Windows.Forms;
-using Arcgis.IDName;
-
-
-namespace Arcgis.Commands
+using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.Geometry;
+namespace Symbology
 {
     /// <summary>
     /// Command that works in ArcGlobe or GlobeControl
     /// </summary>
-    [Guid("0d2c0430-9b99-46fd-8317-cd61cc4c4153")]
+    [Guid("755584e6-2273-481f-830d-76c15bbd44e7")]
     [ClassInterface(ClassInterfaceType.None)]
-    [ProgId("Arcgis.Commands.SaveEditCmd")]
-    public sealed class SaveEditCmd : BaseCommand
+    [ProgId("Symbology.DotDensityRender")]
+    public sealed class DotDensityRender : BaseCommand
     {
         #region COM Registration Function(s)
         [ComRegisterFunction()]
@@ -75,20 +69,17 @@ namespace Arcgis.Commands
         #endregion
 
         private IHookHelper m_HookHelper = null;
-        private IMap m_Map = null;
-        private bool bEnable = true;
-        private IActiveView m_activeView = null;
-        private IEngineEditor m_EngineEditor = null;
-        public SaveEditCmd()
+
+        public DotDensityRender()
         {
             //
             // TODO: Define values for the public properties
             //
-            base.m_category = "编辑按钮"; //localizable text
-            base.m_caption = "保存编辑";  //localizable text
-            base.m_message = "保存编辑过程所做的操作";  //localizable text 
-            base.m_toolTip = "";  //localizable text
-            base.m_name = "SaveEditCmd";   //unique id, non-localizable (e.g. "MyCategory_MyCommand")
+            base.m_category = "点密度图"; //localizable text
+            base.m_caption = "点密度图";  //localizable text
+            base.m_message = "点密度图";  //localizable text 
+            base.m_toolTip = "点密度图";  //localizable text
+            base.m_name = "DotDensityRender";   //unique id, non-localizable (e.g. "MyCategory_MyCommand")
 
             try
             {
@@ -142,23 +133,43 @@ namespace Arcgis.Commands
         /// </summary>
         public override void OnClick()
         {
-            m_Map = m_HookHelper.FocusMap;
-            m_activeView = m_Map as IActiveView;
-            m_EngineEditor = MapManager.EngineEditor;
-             if (m_EngineEditor == null) return; //为空则返回 
-             if(m_EngineEditor.EditState!= esriEngineEditState.esriEngineStateEditing)  return; 
-             IWorkspace pWs = m_EngineEditor.EditWorkspace; 
-             Boolean bHasEdit = m_EngineEditor.HasEdits();//是否编辑 
-             if (bHasEdit)  {  
-               if ( MessageBox.Show("是否保存所做的编辑？", "提示", MessageBoxButtons.YesNo, 
- MessageBoxIcon.Information) == DialogResult.Yes ) 
-                 {   m_EngineEditor.StopEditing(true); //停止编辑并将改动保存
-                     m_EngineEditor.StartEditing(pWs, m_Map); 
-                     m_activeView.Refresh();
-                 }
-             }
-        }
-
+            // TODO: Add DotDensityRender.OnClick implementation
+            string strPopField = "value";
+            IActiveView pActiveView = m_HookHelper.ActiveView;
+            IMap pMap = m_HookHelper.FocusMap;
+            IGeoFeatureLayer pGeoFeatureLayer = pMap.get_Layer(0)as IGeoFeatureLayer;
+            IDotDensityRenderer pDotDensityRenderer = new DotDensityRendererClass();
+            IRendererFields pRendererFields = (IRendererFields)pDotDensityRenderer;
+            pRendererFields.AddField(strPopField,strPopField);
+            IDotDensityFillSymbol pDotDensityFillSymbol =new DotDensityFillSymbolClass();
+            pDotDensityFillSymbol.DotSize=5;
+            pDotDensityFillSymbol.Color=GetRGB(0,0,0);
+            pDotDensityFillSymbol.BackgroundColor = GetRGB(239,228,190);
+            ISymbolArray pSymbolArray = (ISymbolArray)pDotDensityFillSymbol;
+            ISimpleMarkerSymbol pSimpleMarkerSymbol = new SimpleMarkerSymbolClass();
+            pSimpleMarkerSymbol.Style = esriSimpleMarkerStyle.esriSMSCircle;
+            pSimpleMarkerSymbol.Size = 5;
+            pSimpleMarkerSymbol.Color = GetRGB(128,128,255);
+            pSymbolArray.AddSymbol((ISymbol)pSimpleMarkerSymbol);
+            pDotDensityRenderer.DotDensitySymbol = pDotDensityFillSymbol;
+            pDotDensityRenderer.DotValue = 0.5;
+            pDotDensityRenderer.CreateLegend();
+            pGeoFeatureLayer.Renderer = (IFeatureRenderer)pDotDensityRenderer;
+            pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography,null,null);
+         }
         #endregion
+
+        private IRgbColor GetRGB(int red, int green, int blue)
+        {
+            IRgbColor rgb = new RgbColorClass();
+            rgb.Red = red;
+            rgb.Green = green;
+            rgb.Blue = blue;
+            return rgb;
+        }
     }
+
+
+
+
 }

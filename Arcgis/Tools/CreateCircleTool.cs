@@ -1,28 +1,25 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using ESRI.ArcGIS.ADF.BaseClasses;
 using ESRI.ArcGIS.ADF.CATIDs;
 using ESRI.ArcGIS.Controls;
+using System.Windows.Forms;
 using ESRI.ArcGIS.Carto;
-using ESRI.ArcGIS.SystemUI;
-using ESRI.ArcGIS.Controls;
-using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Display;
 using ESRI.ArcGIS.Geodatabase;
-using System.Windows.Forms;
-using Arcgis.IDName;
+using ESRI.ArcGIS.esriSystem;
 
-
-namespace Arcgis.Commands
+namespace Arcgis.Tools
 {
     /// <summary>
-    /// Command that works in ArcGlobe or GlobeControl
+    /// Summary description for CreateCircleTool.
     /// </summary>
-    [Guid("feeaecbd-4f44-4106-9f78-9b8c1c231ecc")]
+    [Guid("5540e321-75e0-4d57-a44d-36f4f14a1684")]
     [ClassInterface(ClassInterfaceType.None)]
-    [ProgId("Arcgis.Commands.StopEditCmd")]
-    public sealed class StopEditCmd : BaseCommand
+    [ProgId("GeometryAndSR.CreateCircleTool")]
+    public sealed class CreateCircleTool : BaseTool
     {
         #region COM Registration Function(s)
         [ComRegisterFunction()]
@@ -57,7 +54,7 @@ namespace Arcgis.Commands
         private static void ArcGISCategoryRegistration(Type registerType)
         {
             string regKey = string.Format("HKEY_CLASSES_ROOT\\CLSID\\{{{0}}}", registerType.GUID);
-            GMxCommands.Register(regKey);
+            MxCommands.Register(regKey);
             ControlsCommands.Register(regKey);
         }
         /// <summary>
@@ -67,37 +64,30 @@ namespace Arcgis.Commands
         private static void ArcGISCategoryUnregistration(Type registerType)
         {
             string regKey = string.Format("HKEY_CLASSES_ROOT\\CLSID\\{{{0}}}", registerType.GUID);
-            GMxCommands.Unregister(regKey);
+            MxCommands.Unregister(regKey);
             ControlsCommands.Unregister(regKey);
         }
 
         #endregion
         #endregion
 
-        private IHookHelper m_hookHelper = null;
-        private IMap m_Map = null;
-        private bool bEnable = true;
-        private IActiveView m_activeView = null;
-        private IEngineEditor m_EngineEditor = null;
-
-        public StopEditCmd()
+        IHookHelper m_hookHelper = new HookHelperClass();
+        IMap m_Map;
+        IActiveView m_ActiveView;
+   
+        public CreateCircleTool()
         {
-            //
-            // TODO: Define values for the public properties
-            //
-            base.m_category = "编辑按钮"; //localizable text
-            base.m_caption = "停止编辑";  //localizable text
-            base.m_message = "停止编辑";  //localizable text 
-            base.m_toolTip = "";  //localizable text
-            base.m_name = "StopEditCmd";   //unique id, non-localizable (e.g. "MyCategory_MyCommand")
+            base.m_category = "WindowsFormsApplication1";
+            base.m_caption = "����Բ";
+            base.m_message = "����Բ";
+            base.m_toolTip = "����Բ";
+            base.m_name = "CreateCircleTool";
 
             try
             {
-                //
-                // TODO: change bitmap name if necessary
-                //
                 string bitmapResourceName = GetType().Name + ".bmp";
                 base.m_bitmap = new Bitmap(GetType(), bitmapResourceName);
+                base.m_cursor = new System.Windows.Forms.Cursor(GetType(), GetType().Name + ".cur");
             }
             catch (Exception ex)
             {
@@ -105,20 +95,11 @@ namespace Arcgis.Commands
             }
         }
 
-        #region Overridden Class Methods
-
-        /// <summary>
-        /// Occurs when this command is created
-        /// </summary>
-        /// <param name="hook">Instance of the application</param>
+        #region Overriden Class Methods
         public override void OnCreate(object hook)
         {
-            if (hook == null)
-                return;
-
             try
             {
-                m_hookHelper = new HookHelperClass();
                 m_hookHelper.Hook = hook;
                 if (m_hookHelper.ActiveView == null)
                 {
@@ -134,42 +115,44 @@ namespace Arcgis.Commands
                 base.m_enabled = false;
             else
                 base.m_enabled = true;
+        }    
 
-            // TODO:  Add other initialization code
-        }
-
-        /// <summary>
-        /// Occurs when this command is clicked
-        /// </summary>
-        public override void OnClick()
+        public override void OnMouseDown(int Button, int Shift, int X, int Y)
         {
-           m_Map = m_hookHelper.FocusMap;
-           m_activeView = m_Map as IActiveView;
-           m_EngineEditor = MapManager.EngineEditor;
-           Boolean bSave = true;
-           if (m_EngineEditor == null) return;
-           if (m_EngineEditor.EditState!= esriEngineEditState.esriEngineStateEditing) return;
-           IWorkspaceEdit pWsEdit2 = m_EngineEditor.EditWorkspace as IWorkspaceEdit;
-           if (pWsEdit2.IsBeingEdited())
-           {   
-               Boolean bHasEdit = m_EngineEditor.HasEdits();
-               if (bHasEdit)
-               {   
-                   if (MessageBox.Show("是否保存所做的编辑？", "提示", MessageBoxButtons.YesNo,
-    MessageBoxIcon.Information) == DialogResult.Yes)
-                   { 
-                       bSave = true;
-                   }
-                   else
-                   {
-                       bSave = false;
-                   }
-               }
-               m_EngineEditor.StopEditing(bSave);
-           }
-            m_Map.ClearSelection();   m_activeView.Refresh();
+            m_ActiveView = m_hookHelper.ActiveView;
+            m_Map = m_hookHelper.FocusMap;
+            IScreenDisplay pScreenDisplay = m_ActiveView.ScreenDisplay;
+            IRubberBand pRubberCircle = new RubberCircleClass();
+            ISimpleFillSymbol pFillSymbol = new SimpleFillSymbolClass();
+            pFillSymbol.Color = getRGB(255, 255, 0);
+            IGeometry pCircle = pRubberCircle.TrackNew(pScreenDisplay, (ISymbol)pFillSymbol) as IGeometry;
+
+            IConstructCircularArc pConstructArc = pCircle as IConstructCircularArc;
+            IPolygon pPolygon = new PolygonClass();
+            ISegmentCollection pSegmentCollection = pPolygon as ISegmentCollection;
+            ISegment pSegment = pConstructArc as ISegment;
+            object missing = Type.Missing;
+            pSegmentCollection.AddSegment(pSegment, ref missing, ref missing);
+            pFillSymbol.Style = esriSimpleFillStyle.esriSFSDiagonalCross;
+            pFillSymbol.Color = getRGB(255, 0, 0);
+            IFillShapeElement pPolygonEle = new PolygonElementClass();
+            pPolygonEle.Symbol = pFillSymbol;
+            IElement pEle = pPolygonEle as IElement;
+            pEle.Geometry = pPolygon;
+            IGraphicsContainer pGraphicsContainer = m_Map as IGraphicsContainer;
+            pGraphicsContainer.AddElement(pEle, 0);
+            m_ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
         }
 
+        public IColor getRGB(int yourRed, int yourGreen, int yourBlue)
+        {
+            IRgbColor pRGB = new RgbColorClass();
+            pRGB.Red = yourRed;
+            pRGB.Green = yourGreen;
+            pRGB.Blue = yourBlue;
+            pRGB.UseWindowsDithering = true;
+            return pRGB;
+        }
         #endregion
     }
 }

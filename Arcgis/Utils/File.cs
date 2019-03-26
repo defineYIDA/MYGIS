@@ -58,8 +58,13 @@ namespace Arcgis
             string filePath = openFileDialog1.FileName;//获取到文件路径
             if (axMapControl.CheckMxFile(filePath))//检查路径是否合法
             {
-                axMapControl.LoadMxFile(filePath, 0,Type.Missing);
-               
+                try
+                {
+                    axMapControl.LoadMxFile(filePath, 0, Type.Missing);
+                }
+                catch (Exception e) {
+                    MessageBox.Show("该地图已损坏或者受保护不能被打开");
+                }
             }
             else
             {

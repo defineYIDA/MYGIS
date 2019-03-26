@@ -13,6 +13,7 @@ using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.Geodatabase;
 using System.Text;
+using Arcgis.IDName;
 
 
 namespace Arcgis.Tools
@@ -198,7 +199,7 @@ namespace Arcgis.Tools
         {
             try
             {
-                IPoint pPt = m_activeView.ScreenDisplay.DisplayTransformation.ToMapPoint(x, y);
+                IPoint pPt = m_activeView.ScreenDisplay.DisplayTransformation.ToMapPoint(X, Y);
                 if (m_EngineEditor == null) return;
                 if (m_EngineEditor.EditState != esriEngineEditState.esriEngineStateEditing) return;
                 if (m_EngineEditLayers == null) return;
@@ -262,7 +263,7 @@ namespace Arcgis.Tools
 
         public override void OnMouseMove(int Button, int Shift, int X, int Y)
         {
-            IPoint pPt = m_activeView.ScreenDisplay.DisplayTransformation.ToMapPoint(x, y);
+            IPoint pPt = m_activeView.ScreenDisplay.DisplayTransformation.ToMapPoint(X, Y);
             if (m_EngineEditLayers == null) return;
             //获取编辑目标图层
             IFeatureLayer pFeatLyr = m_EngineEditLayers.TargetLayer;
@@ -289,7 +290,6 @@ namespace Arcgis.Tools
         {
             // TODO:  Add CreatFeatureToolClass.OnMouseUp implementation
         }
-        public void OnMouseUp(int button, int shift, int x, int y){ }
         public void Refresh(int hdc){ }
         #endregion
         #region 操作函数
@@ -314,7 +314,7 @@ namespace Arcgis.Tools
                 m_EngineEditor.StartOperation();
                 IFeature pFeature = null;
                 pFeature = pFeatCls.CreateFeature();
-                pFeature.Shape = SupportZMFeatureClass.ModifyGeomtryZMValue(pFeatCls, pGeometry);
+                pFeature.Shape = SupportZMFeature.ModifyGeomtryZMValue(pFeatCls, pGeometry);
                 pFeature.Store();
                 m_EngineEditor.StopOperation("添加要素");
                 m_Map.SelectFeature(pFeatLyr, pFeature);

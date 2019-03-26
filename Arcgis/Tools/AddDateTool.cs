@@ -11,7 +11,6 @@ using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.SystemUI;
 //using System.Runtime.InteroperationServices;
 using ESRI.ArcGIS.Geometry;
-using ESRI.ArcGIS.Controls;
 
 namespace Arcgis.Tools
 {

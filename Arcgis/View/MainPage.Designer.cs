@@ -34,9 +34,8 @@
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
-            this.axMapControl2 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
@@ -46,8 +45,13 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.doc = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.NewMapDocument = new System.Windows.Forms.ToolStripMenuItem();
             this.openMapDoc = new System.Windows.Forms.ToolStripMenuItem();
+            this.Save = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.data = new System.Windows.Forms.ToolStripMenuItem();
             this.openSHPData = new System.Windows.Forms.ToolStripMenuItem();
             this.openRasterFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,6 +64,29 @@
             this.endEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.selectLayer = new System.Windows.Forms.ToolStripComboBox();
             this.addLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.符号系统ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UniqueValueRenderer = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClassBreaksRendererColor = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClassBreaksRendererSymbol = new System.Windows.Forms.ToolStripMenuItem();
+            this.SingleSymbol = new System.Windows.Forms.ToolStripMenuItem();
+            this.SymbolizationByLayerPropPage = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraduatedSymbols = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraduatedColorSymbols = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProportionalSymbols = new System.Windows.Forms.ToolStripMenuItem();
+            this.DotDensitySymbols = new System.Windows.Forms.ToolStripMenuItem();
+            this.StatisticsSymbols = new System.Windows.Forms.ToolStripMenuItem();
+            this.查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AttributeQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.Export = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportMap = new System.Windows.Forms.ToolStripMenuItem();
+            this.printAndExport = new System.Windows.Forms.ToolStripMenuItem();
+            this.绘图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreatePoint = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreatePolyline = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreatePolygon = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateCircle = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateRectangle = new System.Windows.Forms.ToolStripMenuItem();
+            this.EagleEye = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.attributeTable = new System.Windows.Forms.ToolStripMenuItem();
             this.delLayer = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,11 +97,9 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
@@ -108,7 +133,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Size = new System.Drawing.Size(823, 587);
-            this.splitContainer1.SplitterDistance = 273;
+            this.splitContainer1.SplitterDistance = 274;
             this.splitContainer1.TabIndex = 1;
             // 
             // splitContainer2
@@ -120,15 +145,22 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.axTOCControl1);
             this.splitContainer2.Panel1.Controls.Add(this.axLicenseControl1);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.axMapControl2);
-            this.splitContainer2.Size = new System.Drawing.Size(273, 587);
-            this.splitContainer2.SplitterDistance = 333;
+            this.splitContainer2.Panel1.Controls.Add(this.axTOCControl1);
+            this.splitContainer2.Panel1MinSize = 200;
+            this.splitContainer2.Panel2MinSize = 0;
+            this.splitContainer2.Size = new System.Drawing.Size(274, 587);
+            this.splitContainer2.SplitterDistance = 558;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // axLicenseControl1
+            // 
+            this.axLicenseControl1.Enabled = true;
+            this.axLicenseControl1.Location = new System.Drawing.Point(129, 296);
+            this.axLicenseControl1.Name = "axLicenseControl1";
+            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
+            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
+            this.axLicenseControl1.TabIndex = 2;
             // 
             // axTOCControl1
             // 
@@ -136,31 +168,11 @@
             this.axTOCControl1.Location = new System.Drawing.Point(0, 0);
             this.axTOCControl1.Name = "axTOCControl1";
             this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
-            this.axTOCControl1.Size = new System.Drawing.Size(273, 333);
+            this.axTOCControl1.Size = new System.Drawing.Size(274, 558);
             this.axTOCControl1.TabIndex = 1;
             this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this.axTOCControl1_OnMouseDown);
             this.axTOCControl1.OnBeginLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnBeginLabelEditEventHandler(this.axTOCControl1_OnBeginLabelEdit);
             this.axTOCControl1.OnEndLabelEdit += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnEndLabelEditEventHandler(this.axTOCControl1_OnEndLabelEdit);
-            // 
-            // axLicenseControl1
-            // 
-            this.axLicenseControl1.Enabled = true;
-            this.axLicenseControl1.Location = new System.Drawing.Point(79, 106);
-            this.axLicenseControl1.Name = "axLicenseControl1";
-            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
-            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
-            this.axLicenseControl1.TabIndex = 0;
-            // 
-            // axMapControl2
-            // 
-            this.axMapControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControl2.Location = new System.Drawing.Point(0, 0);
-            this.axMapControl2.Name = "axMapControl2";
-            this.axMapControl2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl2.OcxState")));
-            this.axMapControl2.Size = new System.Drawing.Size(273, 250);
-            this.axMapControl2.TabIndex = 0;
-            this.axMapControl2.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl2_OnMouseDown);
-            this.axMapControl2.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl2_OnMouseMove);
             // 
             // tabControl1
             // 
@@ -170,8 +182,9 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(546, 587);
+            this.tabControl1.Size = new System.Drawing.Size(545, 587);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -179,7 +192,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(538, 561);
+            this.tabPage1.Size = new System.Drawing.Size(537, 561);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "数据视图";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -190,7 +203,7 @@
             this.axMapControl1.Location = new System.Drawing.Point(3, 3);
             this.axMapControl1.Name = "axMapControl1";
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(532, 555);
+            this.axMapControl1.Size = new System.Drawing.Size(531, 555);
             this.axMapControl1.TabIndex = 0;
             this.axMapControl1.OnAfterScreenDraw += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnAfterScreenDrawEventHandler(this.axMapControl1_OnAfterScreenDraw);
             this.axMapControl1.OnExtentUpdated += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnExtentUpdatedEventHandler(this.axMapControl1_OnExtentUpdated);
@@ -202,7 +215,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(740, 669);
+            this.tabPage2.Size = new System.Drawing.Size(537, 561);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "布局视图";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -213,8 +226,9 @@
             this.axPageLayoutControl1.Location = new System.Drawing.Point(3, 3);
             this.axPageLayoutControl1.Name = "axPageLayoutControl1";
             this.axPageLayoutControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axPageLayoutControl1.OcxState")));
-            this.axPageLayoutControl1.Size = new System.Drawing.Size(734, 663);
+            this.axPageLayoutControl1.Size = new System.Drawing.Size(531, 555);
             this.axPageLayoutControl1.TabIndex = 0;
+            this.axPageLayoutControl1.OnPageLayoutReplaced += new ESRI.ArcGIS.Controls.IPageLayoutControlEvents_Ax_OnPageLayoutReplacedEventHandler(this.axPageLayoutControl1_OnPageLayoutReplaced);
             // 
             // statusStrip1
             // 
@@ -229,8 +243,8 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(77, 17);
-            this.toolStripStatusLabel1.Text = "define_YIDA";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 17);
+            this.toolStripStatusLabel1.Text = "define";
             // 
             // menuStrip1
             // 
@@ -238,7 +252,12 @@
             this.doc,
             this.data,
             this.chkCustomize,
-            this.编辑ToolStripMenuItem});
+            this.编辑ToolStripMenuItem,
+            this.符号系统ToolStripMenuItem,
+            this.查询ToolStripMenuItem,
+            this.Export,
+            this.绘图ToolStripMenuItem,
+            this.EagleEye});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(823, 25);
@@ -248,25 +267,67 @@
             // doc
             // 
             this.doc.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSeparator1,
+            this.NewMapDocument,
             this.openMapDoc,
-            this.toolStripMenuItem1});
+            this.Save,
+            this.toolStripMenuItem1,
+            this.toolStripSeparator2,
+            this.Exit});
             this.doc.Name = "doc";
-            this.doc.Size = new System.Drawing.Size(44, 21);
-            this.doc.Text = "文件";
+            this.doc.Size = new System.Drawing.Size(58, 21);
+            this.doc.Text = "文件(&F)";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
+            // 
+            // NewMapDocument
+            // 
+            this.NewMapDocument.Image = ((System.Drawing.Image)(resources.GetObject("NewMapDocument.Image")));
+            this.NewMapDocument.Name = "NewMapDocument";
+            this.NewMapDocument.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.NewMapDocument.Size = new System.Drawing.Size(165, 22);
+            this.NewMapDocument.Text = "新建(&N)";
+            this.NewMapDocument.Click += new System.EventHandler(this.NewMapDocument_Click);
             // 
             // openMapDoc
             // 
+            this.openMapDoc.Image = ((System.Drawing.Image)(resources.GetObject("openMapDoc.Image")));
             this.openMapDoc.Name = "openMapDoc";
-            this.openMapDoc.Size = new System.Drawing.Size(112, 22);
-            this.openMapDoc.Text = "打开";
+            this.openMapDoc.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openMapDoc.Size = new System.Drawing.Size(165, 22);
+            this.openMapDoc.Text = "打开(&O)";
             this.openMapDoc.Click += new System.EventHandler(this.openMapDoc_Click);
+            // 
+            // Save
+            // 
+            this.Save.Image = ((System.Drawing.Image)(resources.GetObject("Save.Image")));
+            this.Save.Name = "Save";
+            this.Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.Save.Size = new System.Drawing.Size(165, 22);
+            this.Save.Text = "保存(&S)";
+            this.Save.Click += new System.EventHandler(this.Save_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
             this.toolStripMenuItem1.Text = "另存为";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(162, 6);
+            // 
+            // Exit
+            // 
+            this.Exit.Name = "Exit";
+            this.Exit.Size = new System.Drawing.Size(165, 22);
+            this.Exit.Text = "退出(&X)";
+            this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
             // data
             // 
@@ -360,6 +421,185 @@
             this.addLayer.Text = "添加要素";
             this.addLayer.Click += new System.EventHandler(this.addLayer_Click);
             // 
+            // 符号系统ToolStripMenuItem
+            // 
+            this.符号系统ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.UniqueValueRenderer,
+            this.ClassBreaksRendererColor,
+            this.ClassBreaksRendererSymbol,
+            this.SingleSymbol,
+            this.SymbolizationByLayerPropPage,
+            this.GraduatedSymbols,
+            this.GraduatedColorSymbols,
+            this.ProportionalSymbols,
+            this.DotDensitySymbols,
+            this.StatisticsSymbols});
+            this.符号系统ToolStripMenuItem.Name = "符号系统ToolStripMenuItem";
+            this.符号系统ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.符号系统ToolStripMenuItem.Text = "符号系统";
+            // 
+            // UniqueValueRenderer
+            // 
+            this.UniqueValueRenderer.Name = "UniqueValueRenderer";
+            this.UniqueValueRenderer.Size = new System.Drawing.Size(160, 22);
+            this.UniqueValueRenderer.Text = "唯一值符号化";
+            this.UniqueValueRenderer.Click += new System.EventHandler(this.UniqueValueRenderer_Click);
+            // 
+            // ClassBreaksRendererColor
+            // 
+            this.ClassBreaksRendererColor.Name = "ClassBreaksRendererColor";
+            this.ClassBreaksRendererColor.Size = new System.Drawing.Size(160, 22);
+            this.ClassBreaksRendererColor.Text = "分级色彩";
+            this.ClassBreaksRendererColor.Click += new System.EventHandler(this.ClassBreaksRendererColor_Click);
+            // 
+            // ClassBreaksRendererSymbol
+            // 
+            this.ClassBreaksRendererSymbol.Name = "ClassBreaksRendererSymbol";
+            this.ClassBreaksRendererSymbol.Size = new System.Drawing.Size(160, 22);
+            this.ClassBreaksRendererSymbol.Text = "分类符号化";
+            this.ClassBreaksRendererSymbol.Click += new System.EventHandler(this.ClassBreaksRendererSymbol_Click);
+            // 
+            // SingleSymbol
+            // 
+            this.SingleSymbol.Name = "SingleSymbol";
+            this.SingleSymbol.Size = new System.Drawing.Size(160, 22);
+            this.SingleSymbol.Text = "单一符号化";
+            this.SingleSymbol.Click += new System.EventHandler(this.SingleSymbol_Click);
+            // 
+            // SymbolizationByLayerPropPage
+            // 
+            this.SymbolizationByLayerPropPage.Name = "SymbolizationByLayerPropPage";
+            this.SymbolizationByLayerPropPage.Size = new System.Drawing.Size(160, 22);
+            this.SymbolizationByLayerPropPage.Text = "通用符号化";
+            this.SymbolizationByLayerPropPage.Click += new System.EventHandler(this.SymbolizationByLayerPropPage_Click);
+            // 
+            // GraduatedSymbols
+            // 
+            this.GraduatedSymbols.Name = "GraduatedSymbols";
+            this.GraduatedSymbols.Size = new System.Drawing.Size(160, 22);
+            this.GraduatedSymbols.Text = "分级符号化";
+            this.GraduatedSymbols.Click += new System.EventHandler(this.GraduatedSymbols_Click);
+            // 
+            // GraduatedColorSymbols
+            // 
+            this.GraduatedColorSymbols.Name = "GraduatedColorSymbols";
+            this.GraduatedColorSymbols.Size = new System.Drawing.Size(160, 22);
+            this.GraduatedColorSymbols.Text = "分级色彩符号化";
+            this.GraduatedColorSymbols.Click += new System.EventHandler(this.GraduatedColorSymbols_Click);
+            // 
+            // ProportionalSymbols
+            // 
+            this.ProportionalSymbols.Name = "ProportionalSymbols";
+            this.ProportionalSymbols.Size = new System.Drawing.Size(160, 22);
+            this.ProportionalSymbols.Text = "依比例符号化";
+            this.ProportionalSymbols.Click += new System.EventHandler(this.ProportionalSymbols_Click);
+            // 
+            // DotDensitySymbols
+            // 
+            this.DotDensitySymbols.Name = "DotDensitySymbols";
+            this.DotDensitySymbols.Size = new System.Drawing.Size(160, 22);
+            this.DotDensitySymbols.Text = "点值符号化";
+            this.DotDensitySymbols.Click += new System.EventHandler(this.DotDensitySymbols_Click);
+            // 
+            // StatisticsSymbols
+            // 
+            this.StatisticsSymbols.Name = "StatisticsSymbols";
+            this.StatisticsSymbols.Size = new System.Drawing.Size(160, 22);
+            this.StatisticsSymbols.Text = "统计符号化";
+            this.StatisticsSymbols.Click += new System.EventHandler(this.StatisticsSymbols_Click);
+            // 
+            // 查询ToolStripMenuItem
+            // 
+            this.查询ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AttributeQuery});
+            this.查询ToolStripMenuItem.Name = "查询ToolStripMenuItem";
+            this.查询ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.查询ToolStripMenuItem.Text = "查询";
+            // 
+            // AttributeQuery
+            // 
+            this.AttributeQuery.Name = "AttributeQuery";
+            this.AttributeQuery.Size = new System.Drawing.Size(148, 22);
+            this.AttributeQuery.Text = "属性条件查询";
+            this.AttributeQuery.Click += new System.EventHandler(this.AttributeQuery_Click);
+            // 
+            // Export
+            // 
+            this.Export.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ExportMap,
+            this.printAndExport});
+            this.Export.Name = "Export";
+            this.Export.Size = new System.Drawing.Size(68, 21);
+            this.Export.Text = "导出地图";
+            // 
+            // ExportMap
+            // 
+            this.ExportMap.Name = "ExportMap";
+            this.ExportMap.Size = new System.Drawing.Size(152, 22);
+            this.ExportMap.Text = "导出地图";
+            this.ExportMap.Click += new System.EventHandler(this.ExportMap_Click);
+            // 
+            // printAndExport
+            // 
+            this.printAndExport.Name = "printAndExport";
+            this.printAndExport.Size = new System.Drawing.Size(152, 22);
+            this.printAndExport.Text = "打印地图";
+            this.printAndExport.Click += new System.EventHandler(this.printAndExport_Click);
+            // 
+            // 绘图ToolStripMenuItem
+            // 
+            this.绘图ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CreatePoint,
+            this.CreatePolyline,
+            this.CreatePolygon,
+            this.CreateCircle,
+            this.CreateRectangle});
+            this.绘图ToolStripMenuItem.Name = "绘图ToolStripMenuItem";
+            this.绘图ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.绘图ToolStripMenuItem.Text = "绘图";
+            // 
+            // CreatePoint
+            // 
+            this.CreatePoint.Name = "CreatePoint";
+            this.CreatePoint.Size = new System.Drawing.Size(136, 22);
+            this.CreatePoint.Text = "创建点";
+            this.CreatePoint.Click += new System.EventHandler(this.CreatePoint_Click);
+            // 
+            // CreatePolyline
+            // 
+            this.CreatePolyline.Name = "CreatePolyline";
+            this.CreatePolyline.Size = new System.Drawing.Size(136, 22);
+            this.CreatePolyline.Text = "创建线";
+            this.CreatePolyline.Click += new System.EventHandler(this.CreatePolyline_Click);
+            // 
+            // CreatePolygon
+            // 
+            this.CreatePolygon.Name = "CreatePolygon";
+            this.CreatePolygon.Size = new System.Drawing.Size(136, 22);
+            this.CreatePolygon.Text = "创建多边形";
+            this.CreatePolygon.Click += new System.EventHandler(this.CreatePolygon_Click);
+            // 
+            // CreateCircle
+            // 
+            this.CreateCircle.Name = "CreateCircle";
+            this.CreateCircle.Size = new System.Drawing.Size(136, 22);
+            this.CreateCircle.Text = "创建圆";
+            this.CreateCircle.Click += new System.EventHandler(this.CreateCircle_Click);
+            // 
+            // CreateRectangle
+            // 
+            this.CreateRectangle.Name = "CreateRectangle";
+            this.CreateRectangle.Size = new System.Drawing.Size(136, 22);
+            this.CreateRectangle.Text = "创建矩形";
+            this.CreateRectangle.Click += new System.EventHandler(this.CreateRectangle_Click);
+            // 
+            // EagleEye
+            // 
+            this.EagleEye.Name = "EagleEye";
+            this.EagleEye.Size = new System.Drawing.Size(64, 21);
+            this.EagleEye.Text = "窗口(&W)";
+            this.EagleEye.Click += new System.EventHandler(this.EagleEye_Click);
+            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -385,28 +625,30 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(823, 662);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.axToolbarControl1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainPage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "APP";
+            this.Text = "MYGIS";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainPage_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.MainPage_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
@@ -427,8 +669,6 @@
         public ESRI.ArcGIS.Controls.AxToolbarControl axToolbarControl1;
         public System.Windows.Forms.SplitContainer splitContainer1;
         public System.Windows.Forms.SplitContainer splitContainer2;
-        public ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
-        public ESRI.ArcGIS.Controls.AxMapControl axMapControl2;
         public System.Windows.Forms.StatusStrip statusStrip1;
         public System.Windows.Forms.MenuStrip menuStrip1;
         public System.Windows.Forms.ToolStripMenuItem doc;
@@ -457,6 +697,35 @@
         public System.Windows.Forms.ToolStripMenuItem endEdit;
         public System.Windows.Forms.ToolStripComboBox selectLayer;
         public System.Windows.Forms.ToolStripMenuItem addLayer;
+        private System.Windows.Forms.ToolStripMenuItem 符号系统ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem UniqueValueRenderer;
+        private System.Windows.Forms.ToolStripMenuItem ClassBreaksRendererColor;
+        private System.Windows.Forms.ToolStripMenuItem ClassBreaksRendererSymbol;
+        private System.Windows.Forms.ToolStripMenuItem SingleSymbol;
+        private System.Windows.Forms.ToolStripMenuItem SymbolizationByLayerPropPage;
+        private System.Windows.Forms.ToolStripMenuItem GraduatedSymbols;
+        private System.Windows.Forms.ToolStripMenuItem GraduatedColorSymbols;
+        private System.Windows.Forms.ToolStripMenuItem ProportionalSymbols;
+        private System.Windows.Forms.ToolStripMenuItem DotDensitySymbols;
+        private System.Windows.Forms.ToolStripMenuItem StatisticsSymbols;
+        private System.Windows.Forms.ToolStripMenuItem 查询ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AttributeQuery;
+        private System.Windows.Forms.ToolStripMenuItem Export;
+        private System.Windows.Forms.ToolStripMenuItem 绘图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CreatePoint;
+        private System.Windows.Forms.ToolStripMenuItem CreatePolyline;
+        private System.Windows.Forms.ToolStripMenuItem CreatePolygon;
+        private System.Windows.Forms.ToolStripMenuItem CreateCircle;
+        private System.Windows.Forms.ToolStripMenuItem CreateRectangle;
+        private System.Windows.Forms.ToolStripMenuItem EagleEye;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem NewMapDocument;
+        private System.Windows.Forms.ToolStripMenuItem Save;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem Exit;
+        private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
+        private System.Windows.Forms.ToolStripMenuItem ExportMap;
+        private System.Windows.Forms.ToolStripMenuItem printAndExport;
     }
 }
 
