@@ -31,14 +31,22 @@
 
 **ClassBreakRender.cs(分级色彩或分级符号)**
 实现结果(分级色彩为例)：
+
 还是打开打开大气污染的矢量图，点击符号系统的分级色彩；
+
  ![](https://github.com/defineYIDA/MYGIS/blob/master/img/5.png)
-选择符号化图层，值字段为PM2.5标准化字段为None然后选择符号化的色带；
- ![](https://github.com/defineYIDA/MYGIS/blob/master/img/6.png)
-选择分类数为默认5，分类方法为等间隔分类；
- ![](https://github.com/defineYIDA/MYGIS/blob/master/img/7.png)
-点击符号化；
  
+选择符号化图层，值字段为PM2.5标准化字段为None然后选择符号化的色带；
+
+ ![](https://github.com/defineYIDA/MYGIS/blob/master/img/6.png)
+ 
+选择分类数为默认5，分类方法为等间隔分类；
+
+ ![](https://github.com/defineYIDA/MYGIS/blob/master/img/7.png)
+ 
+点击符号化；
+
+ ![](https://github.com/defineYIDA/MYGIS/blob/master/img/8.png)
 
 
 ****
