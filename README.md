@@ -13,11 +13,15 @@
 **实现功能：**
 
 UniqueValueRenderer.cs(唯一值符号化)
-1）导入一个中国空气污染的矢量数据air_pollution：
 
-![](C:\Users\hasee\Documents\Visual Studio 2010\Projects\Arcgis\img\1.png)
+导入一个中国空气污染的矢量数据air_pollution：
+
+
+![](https://github.com/defineYIDA/MYGIS/blob/master/img/1.png)
 
 符号系统的的唯一值符号化，打开符号化窗口：
+
+
 
 选择符号化图层为air_pollution，字段为PM2.5；
 
