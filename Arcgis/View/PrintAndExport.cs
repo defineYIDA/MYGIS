@@ -329,7 +329,11 @@ namespace Arcgis.View
                 }
             }
         }
-
+        /// <summary>
+        /// 页面设置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPageSetup_Click(object sender, EventArgs e)
         {
             DialogResult result = pageSetupDialog1.ShowDialog();
@@ -353,7 +357,11 @@ namespace Arcgis.View
             printer.Paper = paper;
             axPageLayoutControl1.Printer = printer;
         }
-
+        /// <summary>
+        /// 打印预览
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPrintPreview_Click(object sender, EventArgs e)
         {
             m_CurrentPrintPage = 0;
@@ -362,7 +370,11 @@ namespace Arcgis.View
             printPreviewDialog1.Document = document;
             printPreviewDialog1.ShowDialog();
         }
-
+        /// <summary>
+        /// 打印或者输出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPrint_Click(object sender, EventArgs e)
         {
             if (axPageLayoutControl1.ActiveView.FocusMap.LayerCount == 0) {
