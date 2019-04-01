@@ -7,8 +7,8 @@
     <ProjectGuid>{D00FE112-32D6-4949-9C86-B807A46AB67A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YCMap.Utils</RootNamespace>
-    <AssemblyName>YCMap.Utils</AssemblyName>
+    <RootNamespace>MYMap.Utils</RootNamespace>
+    <AssemblyName>MYMap.Utils</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

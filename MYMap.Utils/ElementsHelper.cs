@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace YCMap.Utils
+namespace MYMap.Utils
 {
     public class ElementsHelper
     {
